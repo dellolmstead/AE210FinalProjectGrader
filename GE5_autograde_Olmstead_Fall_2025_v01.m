@@ -718,22 +718,24 @@ end
 % Recurring cost (5 pts)
 costDeduction = 0;
 if abs(numaircraft - 187) < 1e-3
-    if isnan(cost) || cost > 90 + tol
+    if isnan(cost)
         costDeduction = 5;
-        if isnan(cost)
-            logText = logf(logText, '-5 pts Recurring cost missing for 187-aircraft estimate\n');
-        else
-            logText = logf(logText, '-5 pts Recurring cost exceeds $90M (found $%.1fM)\n', cost);
-        end
+        logText = logf(logText, '-5 pts Recurring cost missing for 187-aircraft estimate\n');
+    elseif cost > 115 + tol
+        costDeduction = 5;
+        logText = logf(logText, '-5 pts Recurring cost exceeds $115M (found $%.1fM)\n', cost);
+    elseif cost <= 100 + tol
+        logText = logf(logText, 'Recurring cost meets objective (<=$100M): $%.1fM\n', cost);
     end
 elseif abs(numaircraft - 800) < 1e-3
-    if isnan(cost) || cost > 60 + tol
+    if isnan(cost)
         costDeduction = 5;
-        if isnan(cost)
-            logText = logf(logText, '-5 pts Recurring cost missing for 800-aircraft estimate\n');
-        else
-            logText = logf(logText, '-5 pts Recurring cost exceeds $60M (found $%.1fM)\n', cost);
-        end
+        logText = logf(logText, '-5 pts Recurring cost missing for 800-aircraft estimate\n');
+    elseif cost > 75 + tol
+        costDeduction = 5;
+        logText = logf(logText, '-5 pts Recurring cost exceeds $75M (found $%.1fM)\n', cost);
+    elseif cost <= 63 + tol
+        logText = logf(logText, 'Recurring cost meets objective (<=$63M): $%.1fM\n', cost);
     end
 else
     costDeduction = 5;

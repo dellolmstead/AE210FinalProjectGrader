@@ -90,9 +90,15 @@ function computeBonuses(workbook) {
   }
 
   const cost = asNumber(getCell(main, "Q31"));
-  if (Number.isFinite(cost) && cost <= 100 + TOLERANCES.tol) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.cost, cost));
+  const numAircraft = asNumber(getCell(main, "N31"));
+  if (Number.isFinite(cost) && Number.isFinite(numAircraft)) {
+    if (numAircraft === 187 && cost <= 80 + TOLERANCES.tol) {
+      points += 1;
+      messages.push(format(STRINGS.bonus.cost, cost));
+    } else if (numAircraft === 800 && cost <= 50 + TOLERANCES.tol) {
+      points += 1;
+      messages.push(format(STRINGS.bonus.cost, cost));
+    }
   }
 
   return { points, messages };
