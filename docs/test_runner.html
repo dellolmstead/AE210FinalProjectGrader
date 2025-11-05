@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Final Project Grader Parity Runner</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script type="module" src="./test_runner.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Grader Parity Runner</h1>
+    <p class="note">Compare browser results against MATLAB baselines (Final Project Grader 2025 v0_1)</p>
+  </header>
+
+  <main>
+    <section class="uploader">
+      <label for="file-input" class="drop-zone" id="drop-zone">
+        <span class="prompt">Drop a <code>.xlsm</code> or <code>.xlsx</code> file here</span>
+        <span class="or">or</span>
+        <span class="button">Browse...</span>
+      </label>
+      <input type="file" id="file-input" accept=".xlsm,.xlsx" />
+      <p class="hint">
+        Upload a file whose name matches a baseline entry in <code>docs/testdata/matlab_expected.json</code>.
+      </p>
+    </section>
+
+    <section class="messages">
+      <div id="status-message" class="message info hidden"></div>
+    </section>
+
+    <section class="results hidden" id="results">
+      <div class="summary">
+        <h2>Comparison Summary</h2>
+        <p id="comparison-outcome" class="score-line"></p>
+      </div>
+
+      <div class="feedback">
+        <h2>Diff Details</h2>
+        <div id="diff-output" class="feedback-log"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="version">MATLAB baseline: <code>textout_2025-11-01_15-58-24.txt</code></p>
+  </footer>
+</body>
+</html>

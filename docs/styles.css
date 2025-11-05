@@ -1,0 +1,243 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #60a5fa;
+}
+
+header.app-header {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background: #1e293b;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+header.app-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+header.app-header .note {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  color: #94a3b8;
+}
+
+header.app-header .note .mono {
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  color: #cbd5f5;
+}
+
+main {
+  flex: 1;
+  width: min(960px, 92vw);
+  margin: 2rem auto 3rem;
+}
+
+.uploader {
+  margin-bottom: 1.5rem;
+}
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(148, 163, 184, 0.5);
+  border-radius: 12px;
+  padding: 2.5rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  color: #cbd5f5;
+  text-align: center;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.drop-zone:hover,
+.drop-zone.dragging {
+  border-color: #60a5fa;
+  background: rgba(37, 99, 235, 0.15);
+}
+
+.drop-zone .prompt {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+}
+
+.drop-zone .prompt code {
+  background: rgba(71, 85, 105, 0.4);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+}
+
+.drop-zone .or {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.drop-zone .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.2rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  color: #0f172a;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+#file-input {
+  display: none;
+}
+
+.hint {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message {
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border-left: 4px solid transparent;
+  background: rgba(15, 23, 42, 0.7);
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.message.warning {
+  border-left-color: #fbbf24;
+  background: rgba(250, 204, 21, 0.12);
+  color: #fde68a;
+}
+
+.message.error {
+  border-left-color: #f87171;
+  background: rgba(248, 113, 113, 0.12);
+  color: #fecaca;
+}
+
+.message.info {
+  border-left-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  color: #bae6fd;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.results {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(12px);
+}
+
+.summary {
+  margin-bottom: 1.5rem;
+}
+
+.summary h2,
+.feedback h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  color: #cbd5f5;
+}
+
+.score-line,
+.cutout-line {
+  margin: 0.25rem 0;
+  font-size: 1.05rem;
+  color: #e2e8f0;
+}
+
+.feedback {
+  margin-top: 1.25rem;
+}
+
+.feedback-log {
+  background: rgba(6, 12, 25, 0.85);
+  border-radius: 12px;
+  padding: 1rem;
+  font-family: "Cascadia Mono", "Consolas", "SFMono-Regular", monospace;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #f8fafc;
+  max-height: 420px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+.diff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.diff-table th,
+.diff-table td {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  padding: 0.5rem;
+  vertical-align: top;
+  text-align: left;
+}
+
+.diff-table th {
+  background: rgba(30, 41, 59, 0.6);
+  color: #cbd5f5;
+}
+
+.diff-row-mismatch {
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.diff-row-mismatch td {
+  color: #fecaca;
+}
+
+.feedback-log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.feedback-log::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.feedback-log::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.6);
+  border-radius: 4px;
+}
+
+footer {
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}

@@ -1,0 +1,671 @@
+﻿[
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c26andrewj.kim_attempt_2024-11-14-09-34-47_Kim Andrew_Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c26andrewj.kim_attempt_2024-11-14-09-34-47_Kim Andrew_Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 9: Must be 10,000 ft, Mach = 0.4, AB = 0, Time = 20 min",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Ps2: AB = 100%, expected 0%",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c26antonior.thomas_attempt_2024-11-14-08-02-03_Thomas Antonio_GE3 Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c26antonior.thomas_attempt_2024-11-14-08-02-03_Thomas Antonio_GE3 Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c26patrickj.duggan_attempt_2024-11-13-19-39-28_Duggan Patrick_GE3 Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c26patrickj.duggan_attempt_2024-11-13-19-39-28_Duggan Patrick_GE3 Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27adityas.nair_attempt_2024-11-14-00-49-21_Nair,Aditya_Jet10 UPDATED .xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27adityas.nair_attempt_2024-11-14-00-49-21_Nair,Aditya_Jet10 UPDATED .xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27alexanders.kim_attempt_2024-11-14-22-02-28_Jet10_AE210 Kim_Fall 2024.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27alexanders.kim_attempt_2024-11-14-22-02-28_Jet10_AE210 Kim_Fall 2024.xlsm",
+                         "-1 point Mismatch in Aero A15, G3, and G10  ",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Violates Takeoff Rotation Speed ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 6 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27bradfordr.hurt_attempt_2024-11-17-19-24-35_Hurt Bradford_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27bradfordr.hurt_attempt_2024-11-17-19-24-35_Hurt Bradford_GE3 Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "PCS Z-location outside fuselage vertical bounds.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "-1 Point Recurring cost exceeds threshold ($90M): $91.9M",
+                         "Jet10 Score is 7 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27carissaa.holguin_attempt_2024-11-13-13-45-22_Holguin Carissa_GE3Jet 10 .xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27carissaa.holguin_attempt_2024-11-13-13-45-22_Holguin Carissa_GE3Jet 10 .xlsm",
+                         "Mission radius meets objective (410 nm): 410.0",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Jet10 Score is 9 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27charlesh.allen_attempt_2024-11-13-18-28-52_Allen Charles_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27charlesh.allen_attempt_2024-11-13-18-28-52_Allen Charles_GE3 Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "MaxMach: Mach meets objective (≥ 2.20): 2.20",
+                         "CruiseMach: Mach meets objective (≥ 1.80): 1.80",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Ps2: Mach = 1.30, expected 0.90",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "PCS Z-location outside fuselage vertical bounds.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Cnb/Clb ratio out of bounds",
+                         "-1 Point Unstable! Adjust your aircraft to achieve flyable stability parameters (M10-Q10)",
+                         "Violates Takeoff Rotation Speed ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 6 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27christianj.koszka-lombardo_attempt_2024-11-14-04-29-52_Koszka-Lombardo Christian_Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27christianj.koszka-lombardo_attempt_2024-11-14-04-29-52_Koszka-Lombardo Christian_Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27collinj.edwards_attempt_2024-11-13-21-40-04_Edwards, Collin_GE3.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27collinj.edwards_attempt_2024-11-13-21-40-04_Edwards, Collin_GE3.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27edwardo.champ_attempt_2024-11-13-22-08-35_Champ Edward_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27edwardo.champ_attempt_2024-11-13-22-08-35_Champ Edward_GE3 Jet10.xlsm",
+                         "-2 point Mismatch in Aero A15, G3, and G10  ",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 6 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27elenag.fedrizzi_attempt_2024-11-13-23-17-07_Fedrizzi Elena_Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27elenag.fedrizzi_attempt_2024-11-13-23-17-07_Fedrizzi Elena_Jet10.xlsm",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius meets objective (410 nm): 410.0",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "Takeoff distance meets objective (≤2500 ft): 2500",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "CruiseMach: Mach meets objective (≥ 1.80): 1.80",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jacoba.gurtner_attempt_2024-11-13-20-02-26_Gurtner Jacob_Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jacoba.gurtner_attempt_2024-11-13-20-02-26_Gurtner Jacob_Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "Violates Takeoff Rotation Speed ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jacobr.smith_attempt_2024-11-13-22-52-08_Grayson Jacob_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jacobr.smith_attempt_2024-11-13-22-52-08_Grayson Jacob_GE3 Jet10.xlsm",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "Takeoff distance meets objective (≤2500 ft): 2500",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "-1 Point Recurring cost exceeds threshold ($90M): $94.0M",
+                         "Violates Takeoff Rotation Speed ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 7 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jasonw.poon_attempt_2024-11-14-05-51-44_Poon Jason_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jasonw.poon_attempt_2024-11-14-05-51-44_Poon Jason_GE3 Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius meets objective (410 nm): 410.0",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "MaxMach: Mach meets objective (≥ 2.20): 2.20",
+                         "CruiseMach: Mach meets objective (≥ 1.80): 1.80",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Ps1: Ps meets objective (≥ 500): 500",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "Landing constraint violated: W/S = 59.55 exceeds limit of 51.08",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "Jet10 Score is 9 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jaylend.palmer_attempt_2024-11-13-21-00-55_Palmer Jaylen_Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jaylend.palmer_attempt_2024-11-13-21-00-55_Palmer Jaylen_Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27johna.christ_attempt_2024-11-13-21-10-20_Christ John_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27johna.christ_attempt_2024-11-13-21-10-20_Christ John_GE3 Jet10.xlsm",
+                         "Mission radius below threshold (375 nm): 205.0",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "Cmbt Turn1: Mach = 1.15, expected 1.20",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jon.musliu_attempt_2024-11-13-21-12-53_Musliu  Jon_GE3Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27jon.musliu_attempt_2024-11-13-21-12-53_Musliu  Jon_GE3Jet10.xlsm",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "-1 Point $d is not a valid number of aircraft for cost estimation",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 6 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27kenleer.griffin_attempt_2024-11-14-08-31-52_Griffin Kenlee_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27kenleer.griffin_attempt_2024-11-14-08-31-52_Griffin Kenlee_GE3 Jet10.xlsm",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 9: Must be 10,000 ft, Mach = 0.4, AB = 0, Time = 20 min",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Ps2: Mach = 1.30, expected 0.90",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "PCS Z-location outside fuselage vertical bounds.",
+                         "VT Y-location outside fuselage width.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "-1 Point Recurring cost exceeds threshold ($90M): $91.3M",
+                         "Violates Takeoff Rotation Speed ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 6 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27levi.black_attempt_2024-11-14-01-28-03_Black Levi GE_3 Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27levi.black_attempt_2024-11-14-01-28-03_Black Levi GE_3 Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27lukeg.mccoy_attempt_2024-11-13-23-12-24_McCoy, Luke GE3 Jet10_AE210 Baseline_Fall 2024.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27lukeg.mccoy_attempt_2024-11-13-23-12-24_McCoy, Luke GE3 Jet10_AE210 Baseline_Fall 2024.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27marcusj.nortey_attempt_2024-11-13-01-23-54_Nortey_Marcus_GE_3_Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27marcusj.nortey_attempt_2024-11-13-01-23-54_Nortey_Marcus_GE_3_Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Violates Takeoff Rotation Speed ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27matlynnem.hardy-lyles_attempt_2024-11-14-09-25-58_Hardy Matlynne_Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27matlynnem.hardy-lyles_attempt_2024-11-14-09-25-58_Hardy Matlynne_Jet10.xlsm",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "VT Y-location outside fuselage width.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 7 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27mckenziea.keeling_attempt_2024-11-13-23-40-03_Keeling McKenzie_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27mckenziea.keeling_attempt_2024-11-13-23-40-03_Keeling McKenzie_GE3 Jet10.xlsm",
+                         "Mission radius meets objective (410 nm): 410.0",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "Takeoff distance meets objective (≤2500 ft): 2500",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27mitchellg.adkins_attempt_2024-11-13-15-12-24_Adkins Mitchell_GE3 Jet10.xls",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27mitchellg.adkins_attempt_2024-11-13-15-12-24_Adkins Mitchell_GE3 Jet10.xls",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27nicholasj.reda_attempt_2024-11-13-20-16-21_Reda_Nicholas_GE3_Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27nicholasj.reda_attempt_2024-11-13-20-16-21_Reda_Nicholas_GE3_Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Ps1: Ps meets objective (≥ 500): 500",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27nicolasp.atayde_attempt_2024-11-13-23-28-34_Atayde_Nicolas_GE3 jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27nicolasp.atayde_attempt_2024-11-13-23-28-34_Atayde_Nicolas_GE3 jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius meets objective (410 nm): 410.0",
+                         "Payload meets objective: 8 AIM-120s + 2 AIM-9s",
+                         "MaxMach: Mach meets objective (≥ 2.20): 2.20",
+                         "CruiseMach: Mach meets objective (≥ 1.80): 1.80",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Ps1: Ps meets objective (≥ 500): 500",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 9 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27noahj.kirby_attempt_2024-11-13-22-10-00_Kirby Noah_GE3Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27noahj.kirby_attempt_2024-11-13-22-10-00_Kirby Noah_GE3Jet10.xlsm",
+                         "-2 point Mismatch in Aero A15, G3, and G10  ",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Jet10 Score is 6 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27owenl.hogeboom_attempt_2024-11-13-23-51-18_Hogeboom Owen_GE3 Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27owenl.hogeboom_attempt_2024-11-13-23-51-18_Hogeboom Owen_GE3 Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27peterk.nguyen_attempt_2024-11-14-08-47-01_Nguyen Peter_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27peterk.nguyen_attempt_2024-11-14-08-47-01_Nguyen Peter_GE3 Jet10.xlsm",
+                         "-2 point Mismatch in Aero A15, G3, and G10  ",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 9: Must be 10,000 ft, Mach = 0.4, AB = 0, Time = 20 min",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "VT Y-location outside fuselage width.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Jet10 Score is 7 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27rithvik.vijayakumar_attempt_2024-11-13-22-25-49_Vijayakumar_Jet10_AE210 Baseline_Fall 2024 .xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27rithvik.vijayakumar_attempt_2024-11-13-22-25-49_Vijayakumar_Jet10_AE210 Baseline_Fall 2024 .xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27ryanj.melroy_attempt_2024-11-19-13-13-23_Melroy Ryan_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27ryanj.melroy_attempt_2024-11-19-13-13-23_Melroy Ryan_GE3 Jet10.xlsm",
+                         "-2 point Mismatch in Aero A15, G3, and G10  ",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Fewer than 8 AIM-120s: 6",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "Cmbt Turn1: Mach = 0.90, expected 1.20",
+                         "Cmbt Turn1: Altitude = 25000, expected 30000",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: Mach = 1.20, expected 0.90",
+                         "Cmbt Turn2: Altitude = 30000, expected 10000",
+                         "Cmbt Turn2: g-load = 3.0, must be ≥ 4.0",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "Strake disconnected",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "-1 Point Recurring cost exceeds threshold ($90M): $101.9M",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 4 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27saisreehan.myneni_attempt_2024-11-13-23-33-01_Myneni_Sai Sreehan_GE3 Jet10.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27saisreehan.myneni_attempt_2024-11-13-23-33-01_Myneni_Sai Sreehan_GE3 Jet10.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27sofial.sanchez_attempt_2024-11-13-21-29-04_SanchezSofia_GE3Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27sofial.sanchez_attempt_2024-11-13-21-29-04_SanchezSofia_GE3Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 4: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 8: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius below threshold (375 nm): 220.0",
+                         "Takeoff distance exceeds threshold (3000 ft): 4000",
+                         "MaxMach: Mach meets objective (≥ 2.20): 2.20",
+                         "CruiseMach: Mach meets objective (≥ 1.80): 1.80",
+                         "Cmbt Turn1: g-load meets objective (≥ 4.0): 4.0",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 4.5",
+                         "Ps1: Ps meets objective (≥ 500): 500",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "-1 Point One or more constraints mentioned above are incorrect",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Warning: Unstable aircraft - Recommend to increase SM above 0 or your glider will not fly ",
+                         "Recurring cost meets objective (≤$80M): $79.1M",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 7 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27tylerj.keegan_attempt_2024-11-13-19-01-45_Keegan_Tyler_Jet10.xlsx.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27tylerj.keegan_attempt_2024-11-13-19-01-45_Keegan_Tyler_Jet10.xlsx.xlsm",
+                         "Leg 5: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Takeoff distance meets objective (≤2500 ft): 2500",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "CruiseMach: Mach meets objective (≥ 1.80): 1.80",
+                         "Cmbt Turn2: g-load meets objective (≥ 4.5): 8.0",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 8 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27warrenj.gorman_attempt_2024-11-13-23-37-45_Jet10_AE210 Baseline_Fall 2024_Gorman.xlsm",
+        "status":  "error",
+        "logLines":  [
+                         "Error reading or grading file: GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27warrenj.gorman_attempt_2024-11-13-23-37-45_Jet10_AE210 Baseline_Fall 2024_Gorman.xlsm"
+                     ]
+    },
+    {
+        "file":  "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27zacharyharrisons.quinto_attempt_2024-11-14-00-55-27_Quinto, Z. Harrison_GE3 Jet10.xlsm",
+        "status":  "ok",
+        "logLines":  [
+                         "GE 3_ AATF Design Iteration 1 \u0026 Cutout_c27zacharyharrisons.quinto_attempt_2024-11-14-00-55-27_Quinto, Z. Harrison_GE3 Jet10.xlsm",
+                         "Leg 3: Must be ≥35,000 ft, Mach = 0.9, AB = 0",
+                         "Leg 7: Must be ≥35,000 ft, Mach = Contraints block Supercruise Mach (cell U4), AB = 0, Distance ≥ 150 nm",
+                         "Leg 9: Must be 10,000 ft, Mach = 0.4, AB = 0, Time = 20 min",
+                         "There is an error with your inputs to the OCA Mission that must be corrected. ",
+                         "Mission radius meets objective (410 nm): 410.0",
+                         "Landing distance meets objective (≤3500 ft): 3500",
+                         "Ps1: Ps meets objective (≥ 500): 500",
+                         "Ps2: Ps meets objective (≥ 500): 500",
+                         "Could not perform constraint curve check due to error: Undefined function \u0027mtimes\u0027 for input arguments of type \u0027string\u0027.",
+                         "VT Y-location outside fuselage width.",
+                         "-1 Point Some control surface is disconnected! Move them closer to the fuselage so they can be attached and not parts existing in a nearby location ",
+                         "-1 Point Recurring cost exceeds threshold ($60M): $63.5M",
+                         "Violates Nose gear 90/10 rule ",
+                         "-1 point Something is wrong with the landing gear/takeoff speed, see the hints in the \"Gear\" tab! ",
+                         "Jet10 Score is 7 out of 10",
+                         "Cutout is 5 out of 5"
+                     ]
+    }
+]
