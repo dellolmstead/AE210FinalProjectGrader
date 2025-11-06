@@ -785,63 +785,84 @@ baseScore = max(0, pt);
 pt = baseScore;
 bonusPoints = 0;
 
-if radius >= 410 - distTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Mission radius objective met (%.1f nm)\n', radius);
+if ~isnan(radius)
+    radiusBonus = linearBonus(radius, 375, 410);
+    if radiusBonus > 0
+        bonusPoints = bonusPoints + radiusBonus;
+        logText = logf(logText, 'Mission radius bonus +%.2f (%.1f nm)\n', radiusBonus, radius);
+    end
 end
-if ~isnan(aim120) && ~isnan(aim9) && aim120 >= 8 - tol && aim9 >= 2 - tol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Payload objective met (%.0f AIM-120, %.0f AIM-9)\n', aim120, aim9);
+if ~isnan(aim120) && ~isnan(aim9)
+    payloadBonus = (aim120 >= 8 - tol && aim9 >= 2 - tol);
+    if payloadBonus > 0
+        bonusPoints = bonusPoints + payloadBonus;
+        logText = logf(logText, 'Payload bonus +%.2f (%.0f AIM-120s, %.0f AIM-9s)\n', payloadBonus, aim120, aim9);
+    end
 end
-if takeoff_dist <= 2500 + distTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Takeoff distance objective met (%.0f ft)\n', takeoff_dist);
+if ~isnan(takeoff_dist) && takeoff_dist <= 2500 + distTol
+    takeoffBonus = 1;
+    bonusPoints = bonusPoints + takeoffBonus;
+    logText = logf(logText, 'Takeoff distance bonus +%.2f (%.0f ft)\n', takeoffBonus, takeoff_dist);
 end
-if landing_dist <= 3500 + distTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Landing distance objective met (%.0f ft)\n', landing_dist);
+if ~isnan(landing_dist) && landing_dist <= 3500 + distTol
+    landingBonus = 1;
+    bonusPoints = bonusPoints + landingBonus;
+    logText = logf(logText, 'Landing distance bonus +%.2f (%.0f ft)\n', landingBonus, landing_dist);
 end
-if Main(3,21) >= 2.2 - machTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Max Mach objective met (%.2f)\n', Main(3,21));
+if ~isnan(Main(3,21)) && Main(3,21) >= 2.2 - machTol
+    maxMachBonus = 1;
+    bonusPoints = bonusPoints + maxMachBonus;
+    logText = logf(logText, 'Max Mach bonus +%.2f (Mach %.2f)\n', maxMachBonus, Main(3,21));
 end
-if Main(4,21) >= 1.8 - machTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Supercruise Mach objective met (%.2f)\n', Main(4,21));
+if ~isnan(Main(4,21)) && Main(4,21) >= 1.8 - machTol
+    superBonus = 1;
+    bonusPoints = bonusPoints + superBonus;
+    logText = logf(logText, 'Supercruise Mach bonus +%.2f (Mach %.2f)\n', superBonus, Main(4,21));
 end
-if Main(8,24) >= 500 - distTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Ps objective met at 30k ft (%.0f ft/s)\n', Main(8,24));
+if ~isnan(Main(8,24)) && Main(8,24) >= 500 - distTol
+    psHighBonus = 1;
+    bonusPoints = bonusPoints + psHighBonus;
+    logText = logf(logText, 'Ps @30k ft bonus +%.2f (%.0f ft/s)\n', psHighBonus, Main(8,24));
 end
-if Main(9,24) >= 500 - distTol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Ps objective met at 10k ft (%.0f ft/s)\n', Main(9,24));
+if ~isnan(Main(9,24)) && Main(9,24) >= 500 - distTol
+    psLowBonus = 1;
+    bonusPoints = bonusPoints + psLowBonus;
+    logText = logf(logText, 'Ps @10k ft bonus +%.2f (%.0f ft/s)\n', psLowBonus, Main(9,24));
 end
-if Main(6,22) >= 4 - tol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Combat turn objective met at 30k ft (%.2f g)\n', Main(6,22));
+if ~isnan(Main(6,22)) && Main(6,22) >= 4 - tol
+    gHighBonus = 1;
+    bonusPoints = bonusPoints + gHighBonus;
+    logText = logf(logText, 'Combat turn (30k ft) bonus +%.2f (%.2f g)\n', gHighBonus, Main(6,22));
 end
-if Main(7,22) >= 4.5 - tol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Combat turn objective met at 10k ft (%.2f g)\n', Main(7,22));
+if ~isnan(Main(7,22)) && Main(7,22) >= 4.5 - tol
+    gLowBonus = 1;
+    bonusPoints = bonusPoints + gLowBonus;
+    logText = logf(logText, 'Combat turn (10k ft) bonus +%.2f (%.2f g)\n', gLowBonus, Main(7,22));
 end
-if ~isnan(cost) && cost <= 100 + tol
-    bonusPoints = bonusPoints + 1;
-    logText = logf(logText, '+1 bonus Cost objective met (%.1f M$)\n', cost);
+if ~isnan(cost)
+    if abs(numaircraft - 187) < 1e-3
+        costBonus = linearBonusInv(cost, 115, 100);
+        if costBonus > 0
+            bonusPoints = bonusPoints + costBonus;
+            logText = logf(logText, 'Recurring cost bonus +%.2f (187 aircraft: $%.1fM)\n', costBonus, cost);
+        end
+    elseif abs(numaircraft - 800) < 1e-3
+        costBonus = linearBonusInv(cost, 75, 63);
+        if costBonus > 0
+            bonusPoints = bonusPoints + costBonus;
+            logText = logf(logText, 'Recurring cost bonus +%.2f (800 aircraft: $%.1fM)\n', costBonus, cost);
+        end
+    end
 end
 
 pt = baseScore + bonusPoints;
 
 logText = logf(logText, 'Jet11 base score: %d out of 40\n', baseScore);
-if bonusPoints > 0
-    logText = logf(logText, 'Bonus objectives earned: +%d (final score %d)\n', bonusPoints, pt);
-else
-    logText = logf(logText, 'No bonus objectives earned; final score %d\n', pt);
-end
+logText = logf(logText, 'Bonus points: +%.2f (final score %.2f)\n', bonusPoints, pt);
 
 fprintf('%s completed\n', [name, ext]);
 fprintf('Jet11 base score: %d / 40\n', baseScore);
-fprintf('Jet11 final score (bonus applied): %d\n\n', pt);
+fprintf('Jet11 final score (bonus applied): %.2f\n\n', pt);
 
 fb = char(logText);
 end

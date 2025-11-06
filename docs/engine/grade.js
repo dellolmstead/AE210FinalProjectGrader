@@ -17,91 +17,96 @@ const TOLERANCES = {
   dist: 1e-3,
 };
 
+const clamp01 = (value) => Math.max(0, Math.min(1, value));
+
+const linearBonus = (value, threshold, objective) => {
+  if (!Number.isFinite(value)) return 0;
+  if (objective === threshold) return value >= objective ? 1 : 0;
+  return clamp01((value - threshold) / (objective - threshold));
+};
+
+const inverseLinearBonus = (value, threshold, objective) => {
+  if (!Number.isFinite(value)) return 0;
+  if (objective === threshold) return value <= objective ? 1 : 0;
+  return clamp01((threshold - value) / (threshold - objective));
+};
+
 function computeBonuses(workbook) {
   const messages = [];
-  let points = 0;
+  let total = 0;
+
+  const pushBonus = (points, template, ...args) => {
+    if (points > 0) {
+      total += points;
+      messages.push(format(template, points, ...args));
+    }
+  };
 
   const main = workbook.sheets.main;
 
+  // Mission radius (linear 0 at 375 nm, 1 at 410 nm)
   const radius = asNumber(getCell(main, "Y37"));
-  if (Number.isFinite(radius) && radius >= 410 - TOLERANCES.dist) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.radius, radius));
-  }
+  const radiusBonus = linearBonus(radius, 375, 410);
+  pushBonus(radiusBonus, STRINGS.bonus.radius, radius);
 
   const aim120 = asNumber(getCell(main, "AB3"));
   const aim9 = asNumber(getCell(main, "AB4"));
-  if (
-    Number.isFinite(aim120) &&
-    Number.isFinite(aim9) &&
-    aim120 >= 8 - TOLERANCES.tol &&
-    aim9 >= 2 - TOLERANCES.tol
-  ) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.payload, aim120, aim9));
-  }
+  const payloadBonus =
+    Number.isFinite(aim120) && Number.isFinite(aim9) && aim120 >= 8 - TOLERANCES.tol && aim9 >= 2 - TOLERANCES.tol
+      ? 1
+      : 0;
+  pushBonus(payloadBonus, STRINGS.bonus.payload, aim120 ?? 0, aim9 ?? 0);
 
   const takeoffDist = asNumber(getCell(main, "X12"));
-  if (Number.isFinite(takeoffDist) && takeoffDist <= 2500 + TOLERANCES.dist) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.takeoff, takeoffDist));
-  }
+  const takeoffBonus =
+    Number.isFinite(takeoffDist) && takeoffDist <= 2500 + TOLERANCES.dist ? 1 : 0;
+  pushBonus(takeoffBonus, STRINGS.bonus.takeoff, takeoffDist ?? 0);
 
   const landingDist = asNumber(getCell(main, "X13"));
-  if (Number.isFinite(landingDist) && landingDist <= 3500 + TOLERANCES.dist) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.landing, landingDist));
-  }
+  const landingBonus =
+    Number.isFinite(landingDist) && landingDist <= 3500 + TOLERANCES.dist ? 1 : 0;
+  pushBonus(landingBonus, STRINGS.bonus.landing, landingDist ?? 0);
 
   const maxMach = asNumber(getCell(main, "U3"));
-  if (Number.isFinite(maxMach) && maxMach >= 2.2 - TOLERANCES.mach) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.maxMach, maxMach));
-  }
+  const maxMachBonus =
+    Number.isFinite(maxMach) && maxMach >= 2.2 - TOLERANCES.mach ? 1 : 0;
+  pushBonus(maxMachBonus, STRINGS.bonus.maxMach, maxMach ?? 0);
 
   const supercruiseMach = asNumber(getCell(main, "U4"));
-  if (Number.isFinite(supercruiseMach) && supercruiseMach >= 1.8 - TOLERANCES.mach) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.supercruise, supercruiseMach));
-  }
+  const supercruiseBonus =
+    Number.isFinite(supercruiseMach) && supercruiseMach >= 1.8 - TOLERANCES.mach ? 1 : 0;
+  pushBonus(supercruiseBonus, STRINGS.bonus.supercruise, supercruiseMach ?? 0);
 
   const psHigh = asNumber(getCell(main, "X8"));
-  if (Number.isFinite(psHigh) && psHigh >= 500 - TOLERANCES.dist) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.psHigh, psHigh));
-  }
+  const psHighBonus = Number.isFinite(psHigh) && psHigh >= 500 - TOLERANCES.dist ? 1 : 0;
+  pushBonus(psHighBonus, STRINGS.bonus.psHigh, psHigh ?? 0);
 
   const psLow = asNumber(getCell(main, "X9"));
-  if (Number.isFinite(psLow) && psLow >= 500 - TOLERANCES.dist) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.psLow, psLow));
-  }
+  const psLowBonus = Number.isFinite(psLow) && psLow >= 500 - TOLERANCES.dist ? 1 : 0;
+  pushBonus(psLowBonus, STRINGS.bonus.psLow, psLow ?? 0);
 
   const gHigh = asNumber(getCell(main, "V6"));
-  if (Number.isFinite(gHigh) && gHigh >= 4 - TOLERANCES.tol) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.gHigh, gHigh));
-  }
+  const gHighBonus = Number.isFinite(gHigh) && gHigh >= 4 - TOLERANCES.tol ? 1 : 0;
+  pushBonus(gHighBonus, STRINGS.bonus.gHigh, gHigh ?? 0);
 
   const gLow = asNumber(getCell(main, "V7"));
-  if (Number.isFinite(gLow) && gLow >= 4.5 - TOLERANCES.tol) {
-    points += 1;
-    messages.push(format(STRINGS.bonus.gLow, gLow));
-  }
+  const gLowBonus = Number.isFinite(gLow) && gLow >= 4.5 - TOLERANCES.tol ? 1 : 0;
+  pushBonus(gLowBonus, STRINGS.bonus.gLow, gLow ?? 0);
 
   const cost = asNumber(getCell(main, "Q31"));
   const numAircraft = asNumber(getCell(main, "N31"));
+  let costBonus = 0;
   if (Number.isFinite(cost) && Number.isFinite(numAircraft)) {
-    if (numAircraft === 187 && cost <= 80 + TOLERANCES.tol) {
-      points += 1;
-      messages.push(format(STRINGS.bonus.cost, cost));
-    } else if (numAircraft === 800 && cost <= 50 + TOLERANCES.tol) {
-      points += 1;
-      messages.push(format(STRINGS.bonus.cost, cost));
+    if (Math.abs(numAircraft - 187) < 1e-3) {
+      costBonus = inverseLinearBonus(cost, 115, 100);
+      pushBonus(costBonus, STRINGS.bonus.cost, numAircraft, cost);
+    } else if (Math.abs(numAircraft - 800) < 1e-3) {
+      costBonus = inverseLinearBonus(cost, 75, 63);
+      pushBonus(costBonus, STRINGS.bonus.cost, numAircraft, cost);
     }
   }
 
-  return { points, messages };
+  return { points: total, messages };
 }
 
 export function gradeWorkbook(workbook, rules) {
@@ -154,14 +159,10 @@ export function gradeWorkbook(workbook, rules) {
 
   const bonusResult = computeBonuses(workbook);
   feedback.push(...bonusResult.messages);
-
   const finalScore = clampedBase + bonusResult.points;
 
   const scoreLine = format(STRINGS.summary.base, clampedBase);
-  const bonusLine =
-    bonusResult.points > 0
-      ? format(STRINGS.summary.bonusEarned, bonusResult.points, finalScore)
-      : format(STRINGS.summary.bonusNone, finalScore);
+  const bonusLine = format(STRINGS.summary.bonus, bonusResult.points, finalScore);
 
   feedback.push(scoreLine);
   feedback.push(bonusLine);
