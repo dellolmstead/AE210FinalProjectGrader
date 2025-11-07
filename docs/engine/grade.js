@@ -17,6 +17,8 @@ const TOLERANCES = {
   dist: 1e-3,
 };
 
+const adjustValue = (value, offset = 0) => (Number.isFinite(value) ? value + offset : NaN);
+
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
 
 const linearBonus = (value, threshold, objective) => {
@@ -58,39 +60,35 @@ function computeBonuses(workbook) {
   pushBonus(payloadBonus, STRINGS.bonus.payload, aim120 ?? 0, aim9 ?? 0);
 
   const takeoffDist = asNumber(getCell(main, "X12"));
-  const takeoffBonus =
-    Number.isFinite(takeoffDist) && takeoffDist <= 2500 + TOLERANCES.dist ? 1 : 0;
+  const takeoffBonus = inverseLinearBonus(adjustValue(takeoffDist, -TOLERANCES.dist), 3000, 2500);
   pushBonus(takeoffBonus, STRINGS.bonus.takeoff, takeoffDist ?? 0);
 
   const landingDist = asNumber(getCell(main, "X13"));
-  const landingBonus =
-    Number.isFinite(landingDist) && landingDist <= 3500 + TOLERANCES.dist ? 1 : 0;
+  const landingBonus = inverseLinearBonus(adjustValue(landingDist, -TOLERANCES.dist), 5000, 3500);
   pushBonus(landingBonus, STRINGS.bonus.landing, landingDist ?? 0);
 
   const maxMach = asNumber(getCell(main, "U3"));
-  const maxMachBonus =
-    Number.isFinite(maxMach) && maxMach >= 2.2 - TOLERANCES.mach ? 1 : 0;
+  const maxMachBonus = linearBonus(adjustValue(maxMach, TOLERANCES.mach), 2.0, 2.2);
   pushBonus(maxMachBonus, STRINGS.bonus.maxMach, maxMach ?? 0);
 
   const supercruiseMach = asNumber(getCell(main, "U4"));
-  const supercruiseBonus =
-    Number.isFinite(supercruiseMach) && supercruiseMach >= 1.8 - TOLERANCES.mach ? 1 : 0;
+  const supercruiseBonus = linearBonus(adjustValue(supercruiseMach, TOLERANCES.mach), 1.5, 1.8);
   pushBonus(supercruiseBonus, STRINGS.bonus.supercruise, supercruiseMach ?? 0);
 
   const psHigh = asNumber(getCell(main, "X8"));
-  const psHighBonus = Number.isFinite(psHigh) && psHigh >= 500 - TOLERANCES.dist ? 1 : 0;
+  const psHighBonus = linearBonus(adjustValue(psHigh, TOLERANCES.dist), 400, 500);
   pushBonus(psHighBonus, STRINGS.bonus.psHigh, psHigh ?? 0);
 
   const psLow = asNumber(getCell(main, "X9"));
-  const psLowBonus = Number.isFinite(psLow) && psLow >= 500 - TOLERANCES.dist ? 1 : 0;
+  const psLowBonus = linearBonus(adjustValue(psLow, TOLERANCES.dist), 400, 500);
   pushBonus(psLowBonus, STRINGS.bonus.psLow, psLow ?? 0);
 
   const gHigh = asNumber(getCell(main, "V6"));
-  const gHighBonus = Number.isFinite(gHigh) && gHigh >= 4 - TOLERANCES.tol ? 1 : 0;
+  const gHighBonus = linearBonus(adjustValue(gHigh, TOLERANCES.tol), 3.0, 4.0);
   pushBonus(gHighBonus, STRINGS.bonus.gHigh, gHigh ?? 0);
 
   const gLow = asNumber(getCell(main, "V7"));
-  const gLowBonus = Number.isFinite(gLow) && gLow >= 4.5 - TOLERANCES.tol ? 1 : 0;
+  const gLowBonus = linearBonus(adjustValue(gLow, TOLERANCES.tol), 4.0, 4.5);
   pushBonus(gLowBonus, STRINGS.bonus.gLow, gLow ?? 0);
 
   const cost = asNumber(getCell(main, "Q31"));

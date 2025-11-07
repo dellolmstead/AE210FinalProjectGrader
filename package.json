@@ -1,0 +1,23 @@
+{
+  "name": "ge5autograder",
+  "version": "1.0.0",
+  "description": "Browser-hosted Jet11 grader for the AE210 Final Project. Students drag-and-drop their Jet11 `.xlsm` file; the app executes the same checks as the MATLAB autograder (`GE5_autograde_Olmstead_Fall_2025_v01`), reports the 40-point base score, and flags bonus objectives.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dellolmstead/AE210FinalProjectGrader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dellolmstead/AE210FinalProjectGrader/issues"
+  },
+  "homepage": "https://github.com/dellolmstead/AE210FinalProjectGrader#readme"
+}
