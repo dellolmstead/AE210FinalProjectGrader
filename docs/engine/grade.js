@@ -17,6 +17,9 @@ const TOLERANCES = {
   dist: 1e-3,
 };
 
+const BONUS_FULL_EPS = 1e-6;
+const BONUS_MIN_DISPLAY = 1e-2;
+
 const adjustValue = (value, offset = 0) => (Number.isFinite(value) ? value + offset : NaN);
 
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
@@ -38,8 +41,11 @@ function computeBonuses(workbook) {
   let total = 0;
 
   const pushBonus = (points, template, ...args) => {
-    if (points > 0) {
-      total += points;
+    if (points <= 0) {
+      return;
+    }
+    total += points;
+    if (points < 1 - BONUS_FULL_EPS && points >= BONUS_MIN_DISPLAY) {
       messages.push(format(template, points, ...args));
     }
   };
