@@ -20,9 +20,9 @@ const TOLERANCES = {
 const BONUS_FULL_EPS = 1e-6;
 const BONUS_MIN_DISPLAY = 1e-2;
 
-const adjustValue = (value, offset = 0) => (Number.isFinite(value) ? value + offset : NaN);
-
 const clamp01 = (value) => Math.max(0, Math.min(1, value));
+
+const roundToTenth = (value) => (Number.isFinite(value) ? Math.round(value * 10) / 10 : 0);
 
 const linearBonus = (value, threshold, objective) => {
   if (!Number.isFinite(value)) return 0;
@@ -40,7 +40,8 @@ function computeBonuses(workbook) {
   const messages = [];
   let total = 0;
 
-  const pushBonus = (points, template, ...args) => {
+  const pushBonus = (rawPoints, template, ...args) => {
+    const points = roundToTenth(rawPoints);
     if (points <= 0) {
       return;
     }
@@ -66,35 +67,35 @@ function computeBonuses(workbook) {
   pushBonus(payloadBonus, STRINGS.bonus.payload, aim120 ?? 0, aim9 ?? 0);
 
   const takeoffDist = asNumber(getCell(main, "X12"));
-  const takeoffBonus = inverseLinearBonus(adjustValue(takeoffDist, -TOLERANCES.dist), 3000, 2500);
+  const takeoffBonus = inverseLinearBonus(takeoffDist, 3000, 2500);
   pushBonus(takeoffBonus, STRINGS.bonus.takeoff, takeoffDist ?? 0);
 
   const landingDist = asNumber(getCell(main, "X13"));
-  const landingBonus = inverseLinearBonus(adjustValue(landingDist, -TOLERANCES.dist), 5000, 3500);
+  const landingBonus = inverseLinearBonus(landingDist, 5000, 3500);
   pushBonus(landingBonus, STRINGS.bonus.landing, landingDist ?? 0);
 
   const maxMach = asNumber(getCell(main, "U3"));
-  const maxMachBonus = linearBonus(adjustValue(maxMach, TOLERANCES.mach), 2.0, 2.2);
+  const maxMachBonus = linearBonus(maxMach, 2.0, 2.2);
   pushBonus(maxMachBonus, STRINGS.bonus.maxMach, maxMach ?? 0);
 
   const supercruiseMach = asNumber(getCell(main, "U4"));
-  const supercruiseBonus = linearBonus(adjustValue(supercruiseMach, TOLERANCES.mach), 1.5, 1.8);
+  const supercruiseBonus = linearBonus(supercruiseMach, 1.5, 1.8);
   pushBonus(supercruiseBonus, STRINGS.bonus.supercruise, supercruiseMach ?? 0);
 
   const psHigh = asNumber(getCell(main, "X8"));
-  const psHighBonus = linearBonus(adjustValue(psHigh, TOLERANCES.dist), 400, 500);
+  const psHighBonus = linearBonus(psHigh, 400, 500);
   pushBonus(psHighBonus, STRINGS.bonus.psHigh, psHigh ?? 0);
 
   const psLow = asNumber(getCell(main, "X9"));
-  const psLowBonus = linearBonus(adjustValue(psLow, TOLERANCES.dist), 400, 500);
+  const psLowBonus = linearBonus(psLow, 400, 500);
   pushBonus(psLowBonus, STRINGS.bonus.psLow, psLow ?? 0);
 
   const gHigh = asNumber(getCell(main, "V6"));
-  const gHighBonus = linearBonus(adjustValue(gHigh, TOLERANCES.tol), 3.0, 4.0);
+  const gHighBonus = linearBonus(gHigh, 3.0, 4.0);
   pushBonus(gHighBonus, STRINGS.bonus.gHigh, gHigh ?? 0);
 
   const gLow = asNumber(getCell(main, "V7"));
-  const gLowBonus = linearBonus(adjustValue(gLow, TOLERANCES.tol), 4.0, 4.5);
+  const gLowBonus = linearBonus(gLow, 4.0, 4.5);
   pushBonus(gLowBonus, STRINGS.bonus.gLow, gLow ?? 0);
 
   const cost = asNumber(getCell(main, "Q31"));
@@ -110,7 +111,7 @@ function computeBonuses(workbook) {
     }
   }
 
-  return { points: total, messages };
+  return { points: roundToTenth(total), messages };
 }
 
 export function gradeWorkbook(workbook, rules) {
@@ -163,7 +164,7 @@ export function gradeWorkbook(workbook, rules) {
 
   const bonusResult = computeBonuses(workbook);
   feedback.push(...bonusResult.messages);
-  const finalScore = clampedBase + bonusResult.points;
+  const finalScore = roundToTenth(clampedBase + bonusResult.points);
 
   const scoreLine = format(STRINGS.summary.base, clampedBase);
   const bonusLine = format(STRINGS.summary.bonus, bonusResult.points, finalScore);

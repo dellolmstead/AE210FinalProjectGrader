@@ -2,6 +2,8 @@ import { STRINGS } from "../messages.js";
 import { getCell, asNumber } from "../parseUtils.js";
 import { format } from "../format.js";
 
+const THRUST_TOL = 1e-3;
+
 const THRUST_CELLS = [
   ["C48", "C49"],
   ["D48", "D49"],
@@ -26,7 +28,7 @@ export function runThrustAndTakeoff(workbook) {
   THRUST_CELLS.forEach(([dragRef, thrustRef]) => {
     const drag = asNumber(getCell(miss, dragRef));
     const thrust = asNumber(getCell(miss, thrustRef));
-    if (Number.isFinite(drag) && Number.isFinite(thrust) && drag > thrust + 1e-3) {
+    if (Number.isFinite(drag) && Number.isFinite(thrust) && thrust <= drag + THRUST_TOL) {
       failures += 1;
     }
   });

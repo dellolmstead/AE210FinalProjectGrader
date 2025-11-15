@@ -20,13 +20,14 @@ export function runAeroChecks(workbook) {
     }
   });
 
-  if (failures > 0) {
-    const message = STRINGS.aeroMismatch.replace("%d", Math.min(2, failures));
+  const deduction = Math.min(3, failures);
+  if (deduction > 0) {
+    const message = STRINGS.aeroMismatch.replace("%d", deduction);
     feedback.push(message);
   }
 
   return {
-    delta: -Math.min(2, failures),
+    delta: -deduction,
     feedback,
   };
 }

@@ -14,7 +14,7 @@ export function runStabilityChecks(workbook) {
   const ratio = asNumber(getCell(main, "Q10"));
 
   if (!(sm >= -0.1 && sm <= 0.11)) {
-    feedback.push(STRINGS.stability.sm);
+    feedback.push(format(STRINGS.stability.sm, sm ?? NaN));
     failures += 1;
     if (Number.isFinite(sm) && sm < 0) {
       feedback.push(STRINGS.stability.smWarn);
@@ -24,17 +24,17 @@ export function runStabilityChecks(workbook) {
   }
 
   if (!(clb < -0.001)) {
-    feedback.push(STRINGS.stability.clb);
+    feedback.push(format(STRINGS.stability.clb, clb ?? NaN));
     failures += 1;
   }
 
   if (!(cnb > 0.002)) {
-    feedback.push(STRINGS.stability.cnb);
+    feedback.push(format(STRINGS.stability.cnb, cnb ?? NaN));
     failures += 1;
   }
 
   if (!(ratio >= -1 && ratio <= -0.3)) {
-    feedback.push(STRINGS.stability.ratio);
+    feedback.push(format(STRINGS.stability.ratio, ratio ?? NaN));
     failures += 1;
   }
 

@@ -1,0 +1,61 @@
+<xml xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel">
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="4"/>
+ </o:shapelayout><v:shapetype id="_x0000_t75" coordsize="21600,21600" o:spt="75"
+  o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+  <v:stroke joinstyle="miter"/>
+  <v:formulas>
+   <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+   <v:f eqn="sum @0 1 0"/>
+   <v:f eqn="sum 0 0 @1"/>
+   <v:f eqn="prod @2 1 2"/>
+   <v:f eqn="prod @3 21600 pixelWidth"/>
+   <v:f eqn="prod @3 21600 pixelHeight"/>
+   <v:f eqn="sum @0 0 1"/>
+   <v:f eqn="prod @6 1 2"/>
+   <v:f eqn="prod @7 21600 pixelWidth"/>
+   <v:f eqn="sum @8 21600 0"/>
+   <v:f eqn="prod @7 21600 pixelHeight"/>
+   <v:f eqn="sum @10 21600 0"/>
+  </v:formulas>
+  <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+  <o:lock v:ext="edit" aspectratio="t"/>
+ </v:shapetype><v:shape id="_x0000_s4107" type="#_x0000_t75" style='position:absolute;
+  margin-left:149.25pt;margin-top:155.25pt;width:172.5pt;height:21.75pt;
+  z-index:1'>
+  <v:imagedata o:relid="rId1" o:title=""/>
+  <x:ClientData ObjectType="Pict">
+   <x:Anchor>
+    0, 199, 11, 0, 2, 57, 12, 12</x:Anchor>
+   <x:CF>PictOld</x:CF>
+  </x:ClientData>
+ </v:shape><v:shape id="_x0000_s4251" type="#_x0000_t75" style='position:absolute;
+  margin-left:942.75pt;margin-top:1859.25pt;width:123.75pt;height:29.25pt;
+  z-index:2'>
+  <v:imagedata o:relid="rId2" o:title=""/>
+  <x:ClientData ObjectType="Pict">
+   <x:Anchor>
+    14, 13, 144, 7, 16, 20, 146, 12</x:Anchor>
+   <x:CF>PictOld</x:CF>
+  </x:ClientData>
+ </v:shape><v:shape id="_x0000_s4105" type="#_x0000_t75" style='position:absolute;
+  margin-left:390.75pt;margin-top:0;width:16.5pt;height:15pt;z-index:3'
+  filled="t">
+  <v:imagedata o:relid="rId3" o:title=""/>
+  <x:ClientData ObjectType="Pict">
+   <x:Anchor>
+    4, 6, 0, 0, 4, 28, 0, 20</x:Anchor>
+   <x:CF>Pict</x:CF>
+  </x:ClientData>
+ </v:shape><v:shape id="_x0000_s4106" type="#_x0000_t75" style='position:absolute;
+  margin-left:316.5pt;margin-top:0;width:13.5pt;height:15pt;z-index:4'
+  filled="t">
+  <v:imagedata o:relid="rId4" o:title=""/>
+  <x:ClientData ObjectType="Pict">
+   <x:Anchor>
+    2, 50, 0, 0, 2, 68, 0, 20</x:Anchor>
+   <x:CF>Pict</x:CF>
+  </x:ClientData>
+ </v:shape></xml>
