@@ -4,6 +4,7 @@ import { runAeroChecks } from "./rules/aero.js";
 import { runThrustAndTakeoff } from "./rules/thrust.js";
 import { runConstraintChecks } from "./rules/constraints.js";
 import { runAttachmentChecks } from "./rules/attachments.js";
+import { runStealthChecks } from "./rules/stealth.js";
 import { runStabilityChecks } from "./rules/stability.js";
 import { runFuelVolumeChecks } from "./rules/fuel.js";
 import { runRecurringCostChecks } from "./rules/cost.js";
@@ -143,6 +144,10 @@ export function gradeWorkbook(workbook, rules) {
   const attachmentResult = runAttachmentChecks(workbook, rules);
   baseScore += attachmentResult.delta;
   feedback.push(...attachmentResult.feedback);
+
+  const stealthResult = runStealthChecks(workbook);
+  baseScore += stealthResult.delta;
+  feedback.push(...stealthResult.feedback);
 
   const stabilityResult = runStabilityChecks(workbook, rules);
   baseScore += stabilityResult.delta;

@@ -624,6 +624,8 @@ elseif ~isnan(aim9) && aim9 >= 2 - tol
 end
 % Control surface attachment (2 pts)
 controlFailures = 0;
+VALUE_TOL = 1e-3;
+VT_WING_FRACTION = 0.8;
 
 fuselage_length = Main(32, 2);
 fuselage_end = fuselage_length;
@@ -660,12 +662,13 @@ end
 
 VT_y = Main(24, 8);
 fuse_width = Main(52, 5);
+vtMountedOffFuselage = false;
 if any(isnan([VT_y, fuse_width]))
     logText = logf(logText, 'Unable to verify vertical tail lateral placement due to missing geometry data\n');
     controlFailures = controlFailures + 1;
-elseif VT_y > fuse_width/2
-    logText = logf(logText, 'VT Y-location outside fuselage width.\n');
-    controlFailures = controlFailures + 1;
+elseif abs(VT_y) > fuse_width/2 + VALUE_TOL
+    vtMountedOffFuselage = true;
+    logText = logf(logText, 'Vertical tail mounted off the fuselage; ensure structural support at the wing.\n');
 end
 
 if Main(18, 4) > 1
@@ -691,10 +694,137 @@ if any(component_positions >= fuselage_end)
     controlFailures = controlFailures + 1;
 end
 
+if vtMountedOffFuselage
+    vtApex = geomPlanformPoint(Geom, 163);
+    vtRootTE = geomPlanformPoint(Geom, 166);
+    wingTE = geomPlanformPoint(Geom, 41);
+    if any(isnan([vtApex(1), vtRootTE(1), wingTE(1)]))
+        logText = logf(logText, 'Unable to verify vertical tail overlap with wing due to missing geometry data\n');
+        controlFailures = controlFailures + 1;
+    else
+        chord = vtRootTE(1) - vtApex(1);
+        overlap = max(0, min(wingTE(1), vtRootTE(1)) - vtApex(1));
+        if ~(chord > 0) || overlap + VALUE_TOL < VT_WING_FRACTION * chord
+            logText = logf(logText, 'Vertical tail mounted on the wing must overlap at least 80%% of its root chord with the wing trailing edge.\n');
+            controlFailures = controlFailures + 1;
+        end
+    end
+end
+
+wingAR = Main(19, 2);
+pcsAR = Main(19, 3);
+vtAR = Main(19, 8);
+if ~isnan(wingAR) && ~isnan(pcsAR) && pcsAR >= wingAR - VALUE_TOL
+    logText = logf(logText, 'Pitch control surface aspect ratio (%.2f) must be lower than wing aspect ratio (%.2f).\n', pcsAR, wingAR);
+    controlFailures = controlFailures + 1;
+end
+if ~isnan(wingAR) && ~isnan(vtAR) && vtAR >= wingAR - VALUE_TOL
+    logText = logf(logText, 'Vertical tail aspect ratio (%.2f) must be lower than wing aspect ratio (%.2f).\n', vtAR, wingAR);
+    controlFailures = controlFailures + 1;
+end
+
+widthValues = Main(34:53, 5);
+widthValues = widthValues(~isnan(widthValues));
+engine_diameter = Main(29, 8);
+if isempty(widthValues) || isnan(engine_diameter)
+    logText = logf(logText, 'Unable to verify fuselage width clearance for engines\n');
+    controlFailures = controlFailures + 1;
+else
+    minWidth = min(widthValues);
+    maxWidth = max(widthValues);
+    requiredWidth = engine_diameter + 0.5;
+    if minWidth + VALUE_TOL <= requiredWidth
+        logText = logf(logText, 'Fuselage minimum width (%.2f ft) must exceed engine diameter + 0.5 ft (%.2f ft).\n', minWidth, requiredWidth);
+        controlFailures = controlFailures + 1;
+    end
+    allowedOverhang = 2 * maxWidth;
+    if ~isnan(fuselage_end)
+        pcsTipX = max(Geom(117, 12), Geom(118, 12));
+        vtTipX = max(Geom(165, 12), Geom(166, 12));
+        if ~isnan(pcsTipX)
+            overhang = pcsTipX - fuselage_end;
+            if overhang > allowedOverhang + VALUE_TOL
+                logText = logf(logText, '%s extends %.2f ft beyond the fuselage end (limit %.2f ft).\n', 'Pitch control surface', overhang, allowedOverhang);
+                controlFailures = controlFailures + 1;
+            end
+        end
+        if ~isnan(vtTipX)
+            overhang = vtTipX - fuselage_end;
+            if overhang > allowedOverhang + VALUE_TOL
+                logText = logf(logText, '%s extends %.2f ft beyond the fuselage end (limit %.2f ft).\n', 'Vertical tail', overhang, allowedOverhang);
+                controlFailures = controlFailures + 1;
+            end
+        end
+    end
+end
+
+inlet_x = Main(31, 6);
+compressor_x = Main(32, 6);
+engine_length = Main(29, 9);
+if any(isnan([engine_diameter, fuselage_end, inlet_x, compressor_x, engine_length]))
+    logText = logf(logText, 'Unable to verify engine protrusion due to missing geometry data\n');
+    controlFailures = controlFailures + 1;
+else
+    protrusion = inlet_x + compressor_x + engine_length - fuselage_end;
+    if protrusion > engine_diameter + VALUE_TOL
+        logText = logf(logText, 'Engine nacelles protrude %.2f ft past the fuselage end (limit %.2f ft).\n', protrusion, engine_diameter);
+        controlFailures = controlFailures + 1;
+    end
+end
+
 if controlFailures > 0
     deduction = min(2, controlFailures);
     pt = pt - deduction;
     logText = logf(logText, '-%d pts Control surface placement issues (max 2)\n', deduction);
+end
+
+% Stealth shaping (5 pts)
+STEALTH_TOL = 5;
+stealthFailures = 0;
+
+wingLeadingAngle = computeEdgeAngleDeg(Geom, 38, 39);
+wingTrailingAngle = computeEdgeAngleDeg(Geom, 40, 41);
+pcsLeadingAngle = computeEdgeAngleDeg(Geom, 115, 116);
+pcsTrailingAngle = computeEdgeAngleDeg(Geom, 117, 118);
+strakeLeadingAngle = computeEdgeAngleDeg(Geom, 152, 153);
+strakeTrailingAngle = computeEdgeAngleDeg(Geom, 154, 155);
+vtLeadingAngle = computeEdgeAngleDeg(Geom, 163, 164);
+vtTrailingAngle = computeEdgeAngleDeg(Geom, 165, 166);
+pcsDihedral = Main(26, 3);
+vtTilt = Main(27, 8);
+
+if ~anglesParallel(pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL)
+    logText = logf(logText, 'Pitch control surface leading edge sweep %.1f° must match the wing leading edge sweep %.1f° (+/- %.1f°).\n', pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL);
+    stealthFailures = stealthFailures + 1;
+end
+
+wingTipTE = geomPlanformPoint(Geom, 40);
+wingCenterTE = geomPlanformPoint(Geom, 41);
+if ~(anglesParallel(wingTrailingAngle, wingLeadingAngle, STEALTH_TOL) || teNormalHitsCenterline(wingTipTE, wingCenterTE))
+    logText = logf(logText, 'Wing trailing edge %.1f° is not parallel to the leading edge and its normal does not reach the fuselage centerline (+/- %.1f°).\n', wingTrailingAngle, STEALTH_TOL);
+    stealthFailures = stealthFailures + 1;
+end
+
+if ~isnan(pcsDihedral) && pcsDihedral > 5
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Pitch control surface leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, pcsTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Pitch control surface trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+end
+
+[logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+[logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+
+if isnan(vtTilt)
+    logText = logf(logText, 'Unable to verify stealth shaping due to missing geometry data\n');
+    stealthFailures = stealthFailures + 1;
+elseif vtTilt < 85
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, vtLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Vertical tail leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, vtTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Vertical tail trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+end
+
+stealthDeduction = min(5, stealthFailures);
+if stealthDeduction > 0
+    pt = pt - stealthDeduction;
+    logText = logf(logText, '-%d pts Stealth shaping issues (max 5)\n', stealthDeduction);
 end
 
 % Stability (3 pts)
@@ -963,8 +1093,11 @@ sheets.Main   = safeReadMatrix(filename, 'Main',   {'S3','T3','U3','V3','W3','X3
     'S5','S6','S7','S8','S9','T6','U6','V6','W6','X6','Y6','T7','U7','V7',...
     'W7','X7','Y7','T8','U8','V8','W8','X8','Y8','T9','U9','V9','W9','X9',...
     'Y9','S12','S13','AB3','AB4','X12','X13','Y37','M10','O10','P10','Q10',...
-    'O18','X40','Q23','Q31','N31','B32','C23','H23','D18','D23','D52','F52',...
-    'H24','E52'});
+    'O18','X40','Q23','Q31','N31','P13','Q13','B32','B19','C19','D19','H19','B21','C21',...
+    'D21','H21','B23','C23','D23','H23','C24','D24','H24','C26','D26','H26',...
+    'B27','C27','D27','H27','F31','F32','H29','I29','E34','E35','E36','E37',...
+    'E38','E39','E40','E41','E42','E43','E44','E45','E46','E47','E48','E49',...
+    'E50','E51','E52','E53','D18','D23','D52','F52'});
 sheets.Consts = safeReadMatrix(filename, 'Consts', {'K22','K23','K24','K26','K27','K28','K29','K32','AO42','AQ41','K33'});
 sheets.Gear   = safeReadMatrix(filename, 'Gear',   {'J20','L20','L21','M20','M21','N20'});
 sheets.Geom   = safeReadMatrix(filename, 'Geom',   {'C8','C10','M152','K15','L155','L38'});
@@ -996,7 +1129,7 @@ function data = safeReadMatrix(filename, sheetname, fallbackCells)
 % else
 %     data = readmatrix(filename, 'Sheet', sheetname,'DataRange','A1:AQ52');
 % end
-data = readmatrix(filename, 'Sheet', sheetname,'DataRange','A1:AQ155');
+data = readmatrix(filename, 'Sheet', sheetname,'DataRange','A1:AQ250');
 
 
 % Convert cell references to row/col indices
@@ -1040,6 +1173,78 @@ for i = 1:length(col)
     colNum = colNum * 26 + (double(col(i)) - double('A') + 1);
 end
 idx = [row, colNum];
+end
+
+function angle = computeEdgeAngleDeg(Geom, rowA, rowB)
+p1 = geomPlanformPoint(Geom, rowA);
+p2 = geomPlanformPoint(Geom, rowB);
+if any(isnan([p1, p2]))
+    angle = NaN;
+    return;
+end
+dx = abs(p2(1) - p1(1));
+dy = abs(p2(2) - p1(2));
+if dx == 0 && dy == 0
+    angle = 0;
+else
+    angle = atan2d(dy, dx);
+end
+end
+
+function point = geomPlanformPoint(Geom, row)
+x = Geom(row, 12);
+yCandidates = [Geom(row, 13), Geom(row, 14)];
+yCandidates = yCandidates(~isnan(yCandidates));
+if isempty(yCandidates)
+    y = 0;
+else
+    y = max(abs(yCandidates));
+end
+point = [x, y];
+end
+
+function hit = teNormalHitsCenterline(tipPoint, innerPoint)
+if any(isnan([tipPoint, innerPoint]))
+    hit = false;
+    return;
+end
+dir = innerPoint - tipPoint;
+normals = [dir(2), -dir(1); -dir(2), dir(1)];
+hit = false;
+for k = 1:2
+    normal = normals(k, :);
+    if abs(normal(2)) < 1e-6
+        continue;
+    end
+    t = -tipPoint(2) / normal(2);
+    if t <= 0
+        continue;
+    end
+    hit = true;
+    break;
+end
+end
+
+function tf = anglesParallel(angle, wingAngle, tol)
+if isnan(angle) || isnan(wingAngle)
+    tf = false;
+    return;
+end
+a = mod(angle, 180);
+b = mod(wingAngle, 180);
+diffVal = abs(a - b);
+alt = 180 - diffVal;
+tf = min(diffVal, alt) <= tol;
+end
+
+function [logText, failures] = requireParallelAngle(logText, failures, angle, wingAngle, tol, template)
+if isnan(angle) || isnan(wingAngle)
+    logText = logf(logText, 'Unable to verify stealth shaping due to missing geometry data\n');
+    failures = failures + 1;
+elseif ~anglesParallel(angle, wingAngle, tol)
+    logText = logf(logText, template, angle, wingAngle, tol);
+    failures = failures + 1;
+end
 end
 
 function ref = sub2excel(row, col)
