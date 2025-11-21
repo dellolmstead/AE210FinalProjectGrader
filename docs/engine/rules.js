@@ -1,5 +1,5 @@
 export const RULES = {
-  versionLabel: "Final Project Grader 2025 v0_1",
+  versionLabel: "Final Project Grader 2025 v1_1",
   matlabVersion: "GE5_autograde_Olmstead_Fall_2025_v01",
   sheets: {
     Aero: {
@@ -31,7 +31,9 @@ export const RULES = {
         "C24", "D24", "H24",
         "C26", "D26", "H26",
         "B27", "C27", "D27", "H27",
-        "F31", "F32", "H29", "I29",
+        "F31", "F32", "H29", "I29", "O15",
+        "B34", "B35", "B36", "B37", "B38", "B39", "B40", "B41", "B42", "B43",
+        "B44", "B45", "B46", "B47", "B48", "B49", "B50", "B51", "B52", "B53",
         "E34", "E35", "E36", "E37", "E38", "E39", "E40", "E41", "E42", "E43",
         "E44", "E45", "E46", "E47", "E48", "E49", "E50", "E51", "E52", "E53",
         "K33", "L33", "M33", "N33", "P33", "R33", "S33", "V33", "W33",

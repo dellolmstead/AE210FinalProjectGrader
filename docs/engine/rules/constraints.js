@@ -7,6 +7,15 @@ const VALUE_TOL = 1e-3;
 const PS_TOL = 1;
 const CDX_TOL = 1e-3;
 const BETA_DEFAULT = 0.87620980519917;
+const CURVE_LABEL_MAP = {
+  MaxMach: "MaxMach",
+  CruiseMach: "Supercruise",
+  "Cmbt Turn1": "CombatTurn1",
+  "Cmbt Turn2": "CombatTurn2",
+  Ps1: "Ps1",
+  Ps2: "Ps2",
+  Takeoff: "Takeoff",
+};
 
 const CONSTRAINTS = [
   {
@@ -88,7 +97,6 @@ const CONSTRAINTS = [
     machEq: 1.2,
     nEq: 0.03,
     abEq: 100,
-    psEq: 0,
     cdxAllowed: [0, 0.035],
     betaEq: 1,
   },
@@ -99,7 +107,6 @@ const CONSTRAINTS = [
     machEq: 1.3,
     nEq: 0.5,
     abEq: 0,
-    psEq: 0,
     cdxAllowed: [0, 0.045],
     betaEq: 1,
   },
@@ -153,9 +160,18 @@ export function runConstraintChecks(workbook) {
   let tableErrors = 0;
   let payloadPenalty = 0;
   let curvePenalty = 0;
+  const rowErrors = {};
+  const objectiveLabels = new Set();
+  const curveStatus = {};
 
   const main = workbook.sheets.main;
   const consts = workbook.sheets.consts;
+  const fuelAvailable = asNumber(getCell(main, "O18"));
+  const fuelCapacity = asNumber(getCell(main, "O15"));
+  const betaDefault =
+    Number.isFinite(fuelAvailable) && Number.isFinite(fuelCapacity) && fuelCapacity !== 0
+      ? 1 - fuelAvailable / (2 * fuelCapacity)
+      : BETA_DEFAULT;
 
   const radius = asNumber(getCell(main, "Y37"));
   if (Number.isFinite(radius)) {
@@ -199,6 +215,7 @@ export function runConstraintChecks(workbook) {
 
   CONSTRAINTS.forEach((constraint) => {
     const row = constraint.row;
+    const label = constraint.label;
     const beta = asNumber(getCellByIndex(main, row, 19));
     const altitude = asNumber(getCellByIndex(main, row, 20));
     const mach = asNumber(getCellByIndex(main, row, 21));
@@ -207,74 +224,75 @@ export function runConstraintChecks(workbook) {
     const ps = asNumber(getCellByIndex(main, row, 24));
     const cdx = asNumber(getCellByIndex(main, row, 25));
 
+    if (!(label in rowErrors)) {
+      rowErrors[label] = false;
+    }
+
+    const markError = (message) => {
+      feedback.push(message);
+      tableErrors += 1;
+      rowErrors[label] = true;
+    };
+
     const exceedsTol = (value, expected, tol) =>
       !Number.isFinite(value) || Math.abs(value - expected) > tol;
 
     if (constraint.machEq != null) {
       if (exceedsTol(mach, constraint.machEq, MACH_TOL)) {
-        feedback.push(format(STRINGS.constraint.machEq, constraint.label, mach ?? NaN, constraint.machEq));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.machEq, label, mach ?? NaN, constraint.machEq));
       }
     } else if (constraint.machMin != null) {
       if (!Number.isFinite(mach) || mach < constraint.machMin - MACH_TOL) {
-        feedback.push(format(STRINGS.constraint.machMin, constraint.label, mach ?? NaN, constraint.machMin));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.machMin, label, mach ?? NaN, constraint.machMin));
       } else if (constraint.machObj != null && Number.isFinite(mach) && mach >= constraint.machObj - MACH_TOL) {
-        feedback.push(format(STRINGS.constraint.machObj, constraint.label, constraint.machObj, mach));
+        objectiveLabels.add(label);
       }
     }
 
     if (constraint.altEq != null) {
       if (exceedsTol(altitude, constraint.altEq, 1)) {
-        feedback.push(format(STRINGS.constraint.altEq, constraint.label, altitude ?? NaN, constraint.altEq));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.altEq, label, altitude ?? NaN, constraint.altEq));
       }
     } else if (constraint.altMin != null) {
       if (!Number.isFinite(altitude) || altitude < constraint.altMin - 1) {
-        feedback.push(format(STRINGS.constraint.altMin, constraint.label, altitude ?? NaN, constraint.altMin));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.altMin, label, altitude ?? NaN, constraint.altMin));
       }
     }
 
     if (constraint.nEq != null) {
       if (exceedsTol(n, constraint.nEq, VALUE_TOL)) {
-        feedback.push(format(STRINGS.constraint.nEq, constraint.label, n ?? NaN, constraint.nEq));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.nEq, label, n ?? NaN, constraint.nEq));
       }
     } else if (constraint.nMin != null) {
       if (!Number.isFinite(n) || n < constraint.nMin - VALUE_TOL) {
-        feedback.push(format(STRINGS.constraint.nMin, constraint.label, n ?? NaN, constraint.nMin));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.nMin, label, n ?? NaN, constraint.nMin));
       } else if (constraint.nObj != null && Number.isFinite(n) && n >= constraint.nObj - VALUE_TOL) {
-        feedback.push(format(STRINGS.constraint.nObj, constraint.label, constraint.nObj, n));
+        objectiveLabels.add(label);
       }
     }
 
     if (constraint.abEq != null) {
       if (exceedsTol(ab, constraint.abEq, VALUE_TOL)) {
-        feedback.push(format(STRINGS.constraint.abEq, constraint.label, ab ?? NaN, constraint.abEq));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.abEq, label, ab ?? NaN, constraint.abEq));
       }
     }
 
     if (constraint.psEq != null) {
       if (exceedsTol(ps, constraint.psEq, PS_TOL)) {
-        feedback.push(format(STRINGS.constraint.psEq, constraint.label, ps ?? NaN, constraint.psEq));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.psEq, label, ps ?? NaN, constraint.psEq));
       }
     } else if (constraint.psMin != null) {
       if (!Number.isFinite(ps) || ps < constraint.psMin - PS_TOL) {
-        feedback.push(format(STRINGS.constraint.psMin, constraint.label, ps ?? NaN, constraint.psMin));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.psMin, label, ps ?? NaN, constraint.psMin));
       } else if (constraint.psObj != null && Number.isFinite(ps) && ps >= constraint.psObj - PS_TOL) {
-        feedback.push(format(STRINGS.constraint.psObj, constraint.label, constraint.psObj, ps));
+        objectiveLabels.add(label);
       }
     }
 
     if (constraint.betaEq != null) {
-      if (exceedsTol(beta, constraint.betaEq, VALUE_TOL)) {
-        feedback.push(format(STRINGS.constraint.betaEq, constraint.label, beta ?? NaN));
-        tableErrors += 1;
+      const betaTarget = constraint.betaEq === BETA_DEFAULT ? betaDefault : constraint.betaEq;
+      if (exceedsTol(beta, betaTarget, VALUE_TOL)) {
+        markError(format(STRINGS.constraint.betaEq, label, betaTarget ?? NaN, beta ?? NaN));
       }
     }
 
@@ -284,13 +302,11 @@ export function runConstraintChecks(workbook) {
       );
       if (!allowedMatch) {
         const allowedText = constraint.cdxAllowed.map((value) => value.toFixed(3)).join(", ");
-        feedback.push(format(STRINGS.constraint.cdxAllowed, constraint.label, cdx ?? NaN, allowedText));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.cdxAllowed, label, cdx ?? NaN, allowedText));
       }
     } else if (constraint.cdxEq != null) {
       if (exceedsTol(cdx, constraint.cdxEq, CDX_TOL)) {
-        feedback.push(format(STRINGS.constraint.cdxEq, constraint.label, cdx ?? NaN, constraint.cdxEq));
-        tableErrors += 1;
+        markError(format(STRINGS.constraint.cdxEq, label, cdx ?? NaN, constraint.cdxEq));
       }
     }
   });
@@ -302,6 +318,7 @@ export function runConstraintChecks(workbook) {
     delta -= deduction;
   }
 
+  const failures = [];
   try {
     const wsAxis = [];
     for (let col = 11; col <= 31; col += 1) {
@@ -310,7 +327,6 @@ export function runConstraintChecks(workbook) {
     const wsDesign = asNumber(getCell(main, "P13"));
     const twDesign = asNumber(getCell(main, "Q13"));
 
-    const failures = [];
     if (Number.isFinite(wsDesign) && Number.isFinite(twDesign)) {
       CURVE_ROWS.forEach(({ row, label }) => {
         const twCurve = [];
@@ -318,15 +334,23 @@ export function runConstraintChecks(workbook) {
           twCurve.push(getCellByIndex(consts, row, col));
         }
         const requiredTW = interpolate(wsAxis, twCurve, wsDesign);
-        if (requiredTW != null && twDesign < requiredTW) {
-          failures.push(label);
+        if (requiredTW != null) {
+          const passes = twDesign >= requiredTW - VALUE_TOL;
+          curveStatus[label] = passes;
+          if (!passes) {
+            failures.push(label);
+          }
         }
       });
 
       const wsLimitLanding = asNumber(getCell(consts, "L33"));
-      if (Number.isFinite(wsLimitLanding) && wsDesign > wsLimitLanding) {
-        failures.push("Landing");
-        feedback.push(format(STRINGS.constraint.landingCurve, wsDesign, wsLimitLanding));
+      if (Number.isFinite(wsLimitLanding)) {
+        const landingPass = wsDesign <= wsLimitLanding + VALUE_TOL;
+        curveStatus.Landing = landingPass;
+        if (!landingPass) {
+          failures.push("Landing");
+          feedback.push(format(STRINGS.constraint.landingCurve, wsDesign, wsLimitLanding));
+        }
       }
 
       if (failures.length === 1) {
@@ -347,6 +371,16 @@ export function runConstraintChecks(workbook) {
   } catch (err) {
     feedback.push(format(STRINGS.constraint.curveError, err.message));
   }
+
+  objectiveLabels.forEach((label) => {
+    const curveLabel = CURVE_LABEL_MAP[label] || label;
+    const status = curveStatus[curveLabel];
+    if (status === true && rowErrors[label] !== true) {
+      feedback.push(format(STRINGS.constraint.objectiveBonus, label));
+    } else if (status === false) {
+      feedback.push(format(STRINGS.constraint.objectiveFail, label));
+    }
+  });
 
   return {
     delta,

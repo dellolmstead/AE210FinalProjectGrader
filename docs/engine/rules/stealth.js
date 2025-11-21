@@ -63,6 +63,15 @@ export function runStealthChecks(workbook) {
   const feedback = [];
   let failures = 0;
 
+  const wingArea = asNumber(getCell(main, "B18"));
+  const pcsArea = asNumber(getCell(main, "C18"));
+  const strakeArea = asNumber(getCell(main, "D18"));
+  const vtArea = asNumber(getCell(main, "H18"));
+  const pcsActive = !Number.isFinite(pcsArea) || pcsArea >= 1;
+  const strakeActive = !Number.isFinite(strakeArea) || strakeArea >= 1;
+  const vtActive = !Number.isFinite(vtArea) || vtArea >= 1;
+  const wingActive = !Number.isFinite(wingArea) || wingArea >= 1;
+
   const wingLeadingAngle = computeEdgeAngle(geom, 38, 39);
   const wingTipTE = getPlanformPoint(geom, 40);
   const wingCenterTE = getPlanformPoint(geom, 41);
@@ -84,11 +93,13 @@ export function runStealthChecks(workbook) {
     failures += 1;
   };
 
-  if (!areParallel(pcsLeadingAngle, wingLeadingAngle)) {
+  if (pcsActive && wingActive && !areParallel(pcsLeadingAngle, wingLeadingAngle)) {
     recordFailure(format(STRINGS.stealth.pcsSweep, pcsLeadingAngle, wingLeadingAngle, STEALTH_ANGLE_TOL));
   }
 
-  const wingShielded = areParallel(wingTrailingAngle, wingLeadingAngle) || normalHitsCenterline(wingTipTE, wingCenterTE);
+  const wingShielded =
+    wingActive &&
+    (areParallel(wingTrailingAngle, wingLeadingAngle) || normalHitsCenterline(wingTipTE, wingCenterTE));
   if (!wingShielded) {
     recordFailure(format(STRINGS.stealth.wingTrailing, wingTrailingAngle, STEALTH_ANGLE_TOL));
   }
@@ -101,15 +112,19 @@ export function runStealthChecks(workbook) {
     }
   };
 
-  if (Number.isFinite(pcsDihedral) && pcsDihedral > PCS_DIHEDRAL_THRESHOLD) {
+  if (pcsActive && Number.isFinite(pcsDihedral) && pcsDihedral > PCS_DIHEDRAL_THRESHOLD) {
     checkParallelPair(pcsLeadingAngle, STRINGS.stealth.pcsLeadingParallel);
     checkParallelPair(pcsTrailingAngle, STRINGS.stealth.pcsTrailingParallel);
   }
 
-  checkParallelPair(strakeLeadingAngle, STRINGS.stealth.strakeLeadingParallel);
-  checkParallelPair(strakeTrailingAngle, STRINGS.stealth.strakeTrailingParallel);
+  if (strakeActive) {
+    checkParallelPair(strakeLeadingAngle, STRINGS.stealth.strakeLeadingParallel);
+    checkParallelPair(strakeTrailingAngle, STRINGS.stealth.strakeTrailingParallel);
+  }
 
-  if (!Number.isFinite(vtTilt)) {
+  if (!vtActive) {
+    // ignore
+  } else if (!Number.isFinite(vtTilt)) {
     recordFailure(STRINGS.stealth.missingGeom);
   } else if (vtTilt < VT_TILT_THRESHOLD) {
     checkParallelPair(vtLeadingAngle, STRINGS.stealth.vtLeadingParallel);

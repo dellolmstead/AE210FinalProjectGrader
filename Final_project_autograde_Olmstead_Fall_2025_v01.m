@@ -212,7 +212,13 @@ timeTol = 1e-2;
 distTol = 1e-3;
 bonusFullEps = 1e-6;
 bonusMinDisplay = 1e-2;
-betaDefault = 0.87620980519917;
+fuel_capacity = Main(15, 15);
+if ~isnan(fuel_available) && ~isnan(fuel_capacity) && fuel_capacity ~= 0
+    betaDefault = 1 - fuel_available/(2*fuel_capacity);
+else
+    betaDefault = 0.87620980519917;
+end
+betaExpected = betaDefault;
 
 ConstraintsMach = Main(4, 21);
 radius = Main(37, 25);
@@ -313,7 +319,7 @@ end
 missionDeduction = min(2, missionErrors);
 if missionDeduction > 0
     pt = pt - missionDeduction;
-    logText = logf(logText, '-%d pts Mission profile inputs incorrect (max 2)\n', missionDeduction);
+    logText = logf(logText, '-%d pts Mission profile inputs incorrect\n', missionDeduction);
 end
 
 % Tavailable > D check (3 pts)
@@ -325,306 +331,10 @@ if thrustFailures > 0
     pt = pt - deduction;
     logText = logf(logText, '-%d pts Not enough thrust: Tavailable <= D for %d mission segment(s)\n', deduction, thrustFailures);
 end
-% Constraint table values (2 pts max deduction)
-constraintErrors = 0;
-
-if Main(3,20) < 35000 - altTol
-    logText = logf(logText, 'MaxMach: Altitude = %.0f, must be >= %.0f\n', Main(3,20), 35000);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(3,21) < 2.0 - machTol
-    logText = logf(logText, 'MaxMach: Mach = %.2f, must be >= %.2f\n', Main(3,21), 2.0);
-    constraintErrors = constraintErrors + 1;
-elseif Main(3,21) >= 2.2 - machTol
-    logText = logf(logText, 'MaxMach: Mach meets objective (>= 2.2) [+1 bonus]: %.2f\n', Main(3,21));
-end
-if Main(3,22) < 1 - tol
-    logText = logf(logText, 'MaxMach: n = %.3f, expected %.3f\n', Main(3,22), 1);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(3,23) - 100) > tol
-    logText = logf(logText, 'MaxMach: AB = %.0f%%, expected %.0f%%\n', Main(3,23), 100);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(3,24)) > tol
-    logText = logf(logText, 'MaxMach: Ps = %.0f, expected %.0f\n', Main(3,24), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(3,19) - betaDefault) > 1e-3
-    logText = logf(logText, 'MaxMach: W/WTO must remain at default (found %.3f)\n', Main(3,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-if Main(4,20) < 35000 - altTol
-    logText = logf(logText, 'CruiseMach: Altitude = %.0f, must be >= %.0f\n', Main(4,20), 35000);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(4,21) < 1.5 - machTol
-    logText = logf(logText, 'CruiseMach: Mach = %.2f, must be >= %.2f\n', Main(4,21), 1.5);
-    constraintErrors = constraintErrors + 1;
-elseif Main(4,21) >= 1.8 - machTol
-    logText = logf(logText, 'CruiseMach: Mach meets objective (>= 1.8) [+1 bonus]: %.2f\n', Main(4,21));
-end
-if Main(4,22) < 1 - tol
-    logText = logf(logText, 'CruiseMach: n = %.3f, expected %.3f\n', Main(4,22), 1);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(4,23)) > tol
-    logText = logf(logText, 'CruiseMach: AB = %.0f%%, expected %.0f%%\n', Main(4,23), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(4,24)) > tol
-    logText = logf(logText, 'CruiseMach: Ps = %.0f, expected %.0f\n', Main(4,24), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(4,19) - betaDefault) > 1e-3
-    logText = logf(logText, 'CruiseMach: W/WTO must remain at default (found %.3f)\n', Main(4,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-if abs(Main(6,20) - 30000) > altTol
-    logText = logf(logText, 'Cmbt Turn1: Altitude = %.0f, expected %.0f\n', Main(6,20), 30000);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(6,21) - 1.2) > machTol
-    logText = logf(logText, 'Cmbt Turn1: Mach = %.2f, expected %.2f\n', Main(6,21), 1.2);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(6,22) < 3 - tol
-    logText = logf(logText, 'Cmbt Turn1: g-load = %.3f, must be >= %.1f\n', Main(6,22), 3.0);
-    constraintErrors = constraintErrors + 1;
-elseif Main(6,22) >= 4 - tol
-    logText = logf(logText, 'Cmbt Turn1: g-load meets objective (>= 4.0) [+1 bonus]: %.2f\n', Main(6,22));
-end
-if abs(Main(6,23) - 100) > tol
-    logText = logf(logText, 'Cmbt Turn1: AB = %.0f%%, expected %.0f%%\n', Main(6,23), 100);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(6,24)) > tol
-    logText = logf(logText, 'Cmbt Turn1: Ps = %.0f, expected %.0f\n', Main(6,24), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(6,19) - betaDefault) > 1e-3
-    logText = logf(logText, 'Cmbt Turn1: W/WTO must remain at default (found %.3f)\n', Main(6,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-if abs(Main(7,20) - 10000) > altTol
-    logText = logf(logText, 'Cmbt Turn2: Altitude = %.0f, expected %.0f\n', Main(7,20), 10000);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(7,21) - 0.9) > machTol
-    logText = logf(logText, 'Cmbt Turn2: Mach = %.2f, expected %.2f\n', Main(7,21), 0.9);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(7,22) < 4 - tol
-    logText = logf(logText, 'Cmbt Turn2: g-load = %.3f, must be >= %.1f\n', Main(7,22), 4.0);
-    constraintErrors = constraintErrors + 1;
-elseif Main(7,22) >= 4.5 - tol
-    logText = logf(logText, 'Cmbt Turn2: g-load meets objective (>= 4.5) [+1 bonus]: %.2f\n', Main(7,22));
-end
-if abs(Main(7,23) - 100) > tol
-    logText = logf(logText, 'Cmbt Turn2: AB = %.0f%%, expected %.0f%%\n', Main(7,23), 100);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(7,24)) > tol
-    logText = logf(logText, 'Cmbt Turn2: Ps = %.0f, expected %.0f\n', Main(7,24), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(7,19) - betaDefault) > 1e-3
-    logText = logf(logText, 'Cmbt Turn2: W/WTO must remain at default (found %.3f)\n', Main(7,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-if abs(Main(8,20) - 30000) > altTol
-    logText = logf(logText, 'Ps1: Altitude = %.0f, expected %.0f\n', Main(8,20), 30000);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(8,21) - 1.15) > machTol
-    logText = logf(logText, 'Ps1: Mach = %.2f, expected %.2f\n', Main(8,21), 1.15);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(8,22) < 1 - tol
-    logText = logf(logText, 'Ps1: n = %.3f, expected %.3f\n', Main(8,22), 1);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(8,23) - 100) > tol
-    logText = logf(logText, 'Ps1: AB = %.0f%%, expected %.0f%%\n', Main(8,23), 100);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(8,24) < 400 - distTol
-    logText = logf(logText, 'Ps1: Ps = %.0f, must be >= %.0f\n', Main(8,24), 400);
-    constraintErrors = constraintErrors + 1;
-elseif ~isnan(Main(8,24)) && Main(8,24) >= 500 - distTol
-    logText = logf(logText, 'Ps1: Ps meets objective (>= 500) [+1 bonus]: %.0f\n', Main(8,24));
-end
-if abs(Main(8,19) - betaDefault) > 1e-3
-    logText = logf(logText, 'Ps1: W/WTO must remain at default (found %.3f)\n', Main(8,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-if abs(Main(9,20) - 10000) > altTol
-    logText = logf(logText, 'Ps2: Altitude = %.0f, expected %.0f\n', Main(9,20), 10000);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(9,21) - 0.9) > machTol
-    logText = logf(logText, 'Ps2: Mach = %.2f, expected %.2f\n', Main(9,21), 0.9);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(9,22) < 1 - tol
-    logText = logf(logText, 'Ps2: n = %.3f, expected %.3f\n', Main(9,22), 1);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(9,23)) > tol
-    logText = logf(logText, 'Ps2: AB = %.0f%%, expected %.0f%%\n', Main(9,23), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if Main(9,24) < 400 - distTol
-    logText = logf(logText, 'Ps2: Ps = %.0f, must be >= %.0f\n', Main(9,24), 400);
-    constraintErrors = constraintErrors + 1;
-elseif ~isnan(Main(9,24)) && Main(9,24) >= 500 - distTol
-    logText = logf(logText, 'Ps2: Ps meets objective (>= 500) [+1 bonus]: %.0f\n', Main(9,24));
-end
-if abs(Main(9,19) - betaDefault) > 1e-3
-    logText = logf(logText, 'Ps2: W/WTO must remain at default (found %.3f)\n', Main(9,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-if abs(Main(12,20)) > altTol
-    logText = logf(logText, 'Takeoff: Altitude = %.0f, expected %.0f\n', Main(12,20), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(12,21) - 1.2) > machTol
-    logText = logf(logText, 'Takeoff: Mach = %.2f, expected %.2f\n', Main(12,21), 1.2);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(12,22) - 0.03) > 5e-4
-    logText = logf(logText, 'Takeoff: n = %.3f, expected %.3f\n', Main(12,22), 0.03);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(12,23) - 100) > tol
-    logText = logf(logText, 'Takeoff: AB = %.0f%%, expected %.0f%%\n', Main(12,23), 100);
-    constraintErrors = constraintErrors + 1;
-end
-if takeoff_dist > 3000 + distTol
-    logText = logf(logText, 'Takeoff distance exceeds threshold (3000 ft): %.0f\n', takeoff_dist);
-    constraintErrors = constraintErrors + 1;
-elseif ~isnan(takeoff_dist) && takeoff_dist <= 2500 + distTol
-    logText = logf(logText, 'Takeoff distance meets objective (<= 2500 ft) [+1 bonus]: %.0f\n', takeoff_dist);
-end
-if abs(Main(12,19) - 1) > tol
-    logText = logf(logText, 'Takeoff: W/WTO must remain at default (found %.3f)\n', Main(12,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-cdxTakeoff = Main(12,25);
-if ~(abs(cdxTakeoff) <= tol || abs(cdxTakeoff - 0.035) <= tol)
-    logText = logf(logText, 'Takeoff: CDx = %.3f must be one of 0.000, 0.035\n', cdxTakeoff);
-    constraintErrors = constraintErrors + 1;
-end
-
-if abs(Main(13,20)) > altTol
-    logText = logf(logText, 'Landing: Altitude = %.0f, expected %.0f\n', Main(13,20), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(13,21) - 1.3) > machTol
-    logText = logf(logText, 'Landing: Mach = %.2f, expected %.2f\n', Main(13,21), 1.3);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(13,22) - 0.5) > tol
-    logText = logf(logText, 'Landing: n = %.3f, expected %.3f\n', Main(13,22), 0.5);
-    constraintErrors = constraintErrors + 1;
-end
-if abs(Main(13,23)) > tol
-    logText = logf(logText, 'Landing: AB = %.0f%%, expected %.0f%%\n', Main(13,23), 0);
-    constraintErrors = constraintErrors + 1;
-end
-if landing_dist > 5000 + distTol
-    logText = logf(logText, 'Landing distance exceeds threshold (5000 ft): %.0f\n', landing_dist);
-    constraintErrors = constraintErrors + 1;
-elseif ~isnan(landing_dist) && landing_dist <= 3500 + distTol
-    logText = logf(logText, 'Landing distance meets objective (<= 3500 ft) [+1 bonus]: %.0f\n', landing_dist);
-end
-if abs(Main(13,19) - 1) > tol
-    logText = logf(logText, 'Landing: W/WTO must remain at default (found %.3f)\n', Main(13,19));
-    constraintErrors = constraintErrors + 1;
-end
-
-cdxLanding = Main(13,25);
-if ~(abs(cdxLanding) <= tol || abs(cdxLanding - 0.045) <= tol)
-    logText = logf(logText, 'Landing: CDx = %.3f must be one of 0.000, 0.045\n', cdxLanding);
-    constraintErrors = constraintErrors + 1;
-end
-
-constraintDeduction = min(2, constraintErrors);
-if constraintDeduction > 0
-    pt = pt - constraintDeduction;
-    logText = logf(logText, '-%d pts One or more constraint table entries are incorrect (max 2)\n', constraintDeduction);
-end
-% Constraint curve compliance (8 pts)
-constraintCurveFailures = 0;
-failedCurves = {};
-curveSuffixFew = '. Consider lowering your standards if above threshold.';
-curveSuffixMany = ', among other issues. Consider seeking EI.';
-
-try
-    WS_axis = Consts(22, 11:31);
-    WS_axis = double(WS_axis);
-
-    constraintRows = [23, 24, 26, 27, 28, 29, 32];
-    columnLabels = {"MaxMach", "Supercruise", "CombatTurn1", "CombatTurn2", "Ps1", "Ps2", "Takeoff"};
-
-    WS_design = Main(13, 16);
-    TW_design = Main(13, 17);
-
-    for idx = 1:numel(constraintRows)
-        row = constraintRows(idx);
-        TW_curve = Consts(row, 11:31);
-        TW_curve = double(TW_curve);
-        estimatedTWvalue = interp1(WS_axis, TW_curve, WS_design, 'pchip', 'extrap');
-        if TW_design < estimatedTWvalue
-            constraintCurveFailures = constraintCurveFailures + 1;
-            failedCurves{end+1} = columnLabels{idx}; %#ok<AGROW>
-        end
-    end
-
-    WS_limit_landing = Consts(33, 12);
-    if WS_design > WS_limit_landing
-        constraintCurveFailures = constraintCurveFailures + 1;
-        failedCurves{end+1} = 'Landing'; %#ok<AGROW>
-        logText = logf(logText, 'Landing constraint violated: W/S = %.2f exceeds limit of %.2f\n', WS_design, WS_limit_landing);
-    end
-catch ME
-    logText = logf(logText, 'Could not perform constraint curve check due to error: %s\n', ME.message);
-    constraintCurveFailures = 0;
-    failedCurves = {};
-end
-
-if constraintCurveFailures == 1
-    pt = pt - 4;
-    logText = logf(logText, '-4 pts Design did not meet the following constraint: %s%s\n', char(failedCurves{1}), curveSuffixFew);
-elseif constraintCurveFailures >= 2
-    pt = pt - 8;
-    summary = strjoin(failedCurves, ', ');
-    suffix = curveSuffixFew;
-    if constraintCurveFailures > 6
-        suffix = curveSuffixMany;
-    end
-    logText = logf(logText, '-8 pts Design did not meet the following constraints: %s%s\n', char(summary), suffix);
-end
-
-% Payload (4 pts)
-if isnan(aim120) || aim120 < 8 - tol
-    count = aim120;
-    if isnan(count), count = 0; end
-    pt = pt - 4;
-    logText = logf(logText, '-4 pts Payload must include at least 8 AIM-120Ds (found %.0f)\n', count);
-elseif ~isnan(aim9) && aim9 >= 2 - tol
-    logText = logf(logText, 'Payload meets objective [+1 bonus]: %.0f AIM-120s + %.0f AIM-9s\n', aim120, aim9);
-end
 % Control surface attachment (2 pts)
 controlFailures = 0;
 VALUE_TOL = 1e-3;
+AR_TOL = 0.1;
 VT_WING_FRACTION = 0.8;
 
 fuselage_length = Main(32, 2);
@@ -714,18 +424,29 @@ end
 wingAR = Main(19, 2);
 pcsAR = Main(19, 3);
 vtAR = Main(19, 8);
-if ~isnan(wingAR) && ~isnan(pcsAR) && pcsAR >= wingAR - VALUE_TOL
+if ~isnan(wingAR) && ~isnan(pcsAR) && pcsAR > wingAR + AR_TOL
     logText = logf(logText, 'Pitch control surface aspect ratio (%.2f) must be lower than wing aspect ratio (%.2f).\n', pcsAR, wingAR);
     controlFailures = controlFailures + 1;
 end
-if ~isnan(wingAR) && ~isnan(vtAR) && vtAR >= wingAR - VALUE_TOL
+if ~isnan(wingAR) && ~isnan(vtAR) && vtAR >= wingAR - AR_TOL
     logText = logf(logText, 'Vertical tail aspect ratio (%.2f) must be lower than wing aspect ratio (%.2f).\n', vtAR, wingAR);
     controlFailures = controlFailures + 1;
 end
 
-widthValues = Main(34:53, 5);
-widthValues = widthValues(~isnan(widthValues));
 engine_diameter = Main(29, 8);
+inlet_x = Main(31, 6);
+compressor_x = Main(32, 6);
+engine_start = inlet_x + compressor_x;
+widthValues = [];
+if ~isnan(engine_start)
+    for row = 34:53
+        station_x = Main(row, 2);
+        width = Main(row, 5);
+        if ~isnan(station_x) && ~isnan(width) && station_x >= engine_start
+            widthValues(end+1) = width; %#ok<AGROW>
+        end
+    end
+end
 if isempty(widthValues) || isnan(engine_diameter)
     logText = logf(logText, 'Unable to verify fuselage width clearance for engines\n');
     controlFailures = controlFailures + 1;
@@ -758,8 +479,6 @@ else
     end
 end
 
-inlet_x = Main(31, 6);
-compressor_x = Main(32, 6);
 engine_length = Main(29, 9);
 if any(isnan([engine_diameter, fuselage_end, inlet_x, compressor_x, engine_length]))
     logText = logf(logText, 'Unable to verify engine protrusion due to missing geometry data\n');
@@ -775,10 +494,10 @@ end
 if controlFailures > 0
     deduction = min(2, controlFailures);
     pt = pt - deduction;
-    logText = logf(logText, '-%d pts Control surface placement issues (max 2)\n', deduction);
+    logText = logf(logText, '-%d pts Control surface placement issues\n', deduction);
 end
 
-% Stealth shaping (5 pts)
+% Stealth shaping 
 STEALTH_TOL = 5;
 stealthFailures = 0;
 
@@ -792,28 +511,40 @@ vtLeadingAngle = computeEdgeAngleDeg(Geom, 163, 164);
 vtTrailingAngle = computeEdgeAngleDeg(Geom, 165, 166);
 pcsDihedral = Main(26, 3);
 vtTilt = Main(27, 8);
+wingArea = Main(18, 2);
+pcsArea = Main(18, 3);
+strakeArea = Main(18, 4);
+vtArea = Main(18, 8);
+wingActive = isnan(wingArea) || wingArea >= 1;
+pcsActive = isnan(pcsArea) || pcsArea >= 1;
+strakeActive = isnan(strakeArea) || strakeArea >= 1;
+vtActive = isnan(vtArea) || vtArea >= 1;
 
-if ~anglesParallel(pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL)
+if pcsActive && wingActive && ~anglesParallel(pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL)
     logText = logf(logText, 'Pitch control surface leading edge sweep %.1f° must match the wing leading edge sweep %.1f° (+/- %.1f°).\n', pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL);
     stealthFailures = stealthFailures + 1;
 end
 
 wingTipTE = geomPlanformPoint(Geom, 40);
 wingCenterTE = geomPlanformPoint(Geom, 41);
-if ~(anglesParallel(wingTrailingAngle, wingLeadingAngle, STEALTH_TOL) || teNormalHitsCenterline(wingTipTE, wingCenterTE))
+if ~(wingActive && (anglesParallel(wingTrailingAngle, wingLeadingAngle, STEALTH_TOL) || teNormalHitsCenterline(wingTipTE, wingCenterTE)))
     logText = logf(logText, 'Wing trailing edge %.1f° is not parallel to the leading edge and its normal does not reach the fuselage centerline (+/- %.1f°).\n', wingTrailingAngle, STEALTH_TOL);
     stealthFailures = stealthFailures + 1;
 end
 
-if ~isnan(pcsDihedral) && pcsDihedral > 5
+if pcsActive && ~isnan(pcsDihedral) && pcsDihedral > 5
     [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Pitch control surface leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
     [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, pcsTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Pitch control surface trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
 end
 
-[logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
-[logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+if strakeActive
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+end
 
-if isnan(vtTilt)
+if ~vtActive
+    % ignore
+elseif isnan(vtTilt)
     logText = logf(logText, 'Unable to verify stealth shaping due to missing geometry data\n');
     stealthFailures = stealthFailures + 1;
 elseif vtTilt < 85
@@ -824,7 +555,592 @@ end
 stealthDeduction = min(5, stealthFailures);
 if stealthDeduction > 0
     pt = pt - stealthDeduction;
-    logText = logf(logText, '-%d pts Stealth shaping issues (max 5)\n', stealthDeduction);
+    logText = logf(logText, '-%d pts Stealth shaping issues\n', stealthDeduction);
+end
+
+% Constraint table values (2 pts max deduction)
+constraintErrors = 0;
+objectiveSet = struct('MaxMach', false, 'CruiseMach', false, 'CmbtTurn1', false, 'CmbtTurn2', false, 'Ps1', false, 'Ps2', false);
+rowErrorsMap = objectiveSet;
+curveStatus = struct();
+labelNames = struct('MaxMach', 'MaxMach', 'CruiseMach', 'CruiseMach', 'CmbtTurn1', 'Cmbt Turn1', 'CmbtTurn2', 'Cmbt Turn2', 'Ps1', 'Ps1', 'Ps2', 'Ps2');
+
+if Main(3,20) < 35000 - altTol
+    logText = logf(logText, 'MaxMach: Altitude = %.0f, must be >= %.0f\n', Main(3,20), 35000);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.MaxMach = true;
+end
+if Main(3,21) < 2.0 - machTol
+    logText = logf(logText, 'MaxMach: Mach = %.2f, must be >= %.2f\n', Main(3,21), 2.0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.MaxMach = true;
+elseif Main(3,21) >= 2.2 - machTol
+    objectiveSet.MaxMach = true;
+end
+if Main(3,22) < 1 - tol
+    logText = logf(logText, 'MaxMach: n = %.3f, expected %.3f\n', Main(3,22), 1);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.MaxMach = true;
+end
+if abs(Main(3,23) - 100) > tol
+    logText = logf(logText, 'MaxMach: AB = %.0f%%, expected %.0f%%\n', Main(3,23), 100);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.MaxMach = true;
+end
+if abs(Main(3,24)) > tol
+    logText = logf(logText, 'MaxMach: Ps = %.0f, expected %.0f\n', Main(3,24), 0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.MaxMach = true;
+end
+if abs(Main(3,19) - betaExpected) > 1e-3
+    logText = logf(logText, 'MaxMach: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(3,19));
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.MaxMach = true;
+end
+
+if Main(4,20) < 35000 - altTol
+    logText = logf(logText, 'CruiseMach: Altitude = %.0f, must be >= %.0f\n', Main(4,20), 35000);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CruiseMach = true;
+end
+if Main(4,21) < 1.5 - machTol
+    logText = logf(logText, 'CruiseMach: Mach = %.2f, must be >= %.2f\n', Main(4,21), 1.5);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CruiseMach = true;
+elseif Main(4,21) >= 1.8 - machTol
+    objectiveSet.CruiseMach = true;
+end
+if Main(4,22) < 1 - tol
+    logText = logf(logText, 'CruiseMach: n = %.3f, expected %.3f\n', Main(4,22), 1);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CruiseMach = true;
+end
+if abs(Main(4,23)) > tol
+    logText = logf(logText, 'CruiseMach: AB = %.0f%%, expected %.0f%%\n', Main(4,23), 0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CruiseMach = true;
+end
+if abs(Main(4,24)) > tol
+    logText = logf(logText, 'CruiseMach: Ps = %.0f, expected %.0f\n', Main(4,24), 0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CruiseMach = true;
+end
+if abs(Main(4,19) - betaExpected) > 1e-3
+    logText = logf(logText, 'CruiseMach: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(4,19));
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CruiseMach = true;
+end
+
+if abs(Main(6,20) - 30000) > altTol
+    logText = logf(logText, 'Cmbt Turn1: Altitude = %.0f, expected %.0f\n', Main(6,20), 30000);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn1 = true;
+end
+if abs(Main(6,21) - 1.2) > machTol
+    logText = logf(logText, 'Cmbt Turn1: Mach = %.2f, expected %.2f\n', Main(6,21), 1.2);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn1 = true;
+end
+if Main(6,22) < 3 - tol
+    logText = logf(logText, 'Cmbt Turn1: g-load = %.3f, must be >= %.1f\n', Main(6,22), 3.0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn1 = true;
+elseif Main(6,22) >= 4 - tol
+    objectiveSet.CmbtTurn1 = true;
+end
+if abs(Main(6,23) - 100) > tol
+    logText = logf(logText, 'Cmbt Turn1: AB = %.0f%%, expected %.0f%%\n', Main(6,23), 100);
+   constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn1 = true;
+end
+if abs(Main(6,24)) > tol
+    logText = logf(logText, 'Cmbt Turn1: Ps = %.0f, expected %.0f\n', Main(6,24), 0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn1 = true;
+end
+if abs(Main(6,19) - betaExpected) > 1e-3
+    logText = logf(logText, 'Cmbt Turn1: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(6,19));
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn1 = true;
+end
+
+if abs(Main(7,20) - 10000) > altTol
+    logText = logf(logText, 'Cmbt Turn2: Altitude = %.0f, expected %.0f\n', Main(7,20), 10000);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn2 = true;
+end
+if abs(Main(7,21) - 0.9) > machTol
+    logText = logf(logText, 'Cmbt Turn2: Mach = %.2f, expected %.2f\n', Main(7,21), 0.9);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn2 = true;
+end
+if Main(7,22) < 4 - tol
+    logText = logf(logText, 'Cmbt Turn2: g-load = %.3f, must be >= %.1f\n', Main(7,22), 4.0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn2 = true;
+elseif Main(7,22) >= 4.5 - tol
+    objectiveSet.CmbtTurn2 = true;
+end
+if abs(Main(7,23) - 100) > tol
+    logText = logf(logText, 'Cmbt Turn2: AB = %.0f%%, expected %.0f%%\n', Main(7,23), 100);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn2 = true;
+end
+if abs(Main(7,24)) > tol
+    logText = logf(logText, 'Cmbt Turn2: Ps = %.0f, expected %.0f\n', Main(7,24), 0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn2 = true;
+end
+if abs(Main(7,19) - betaExpected) > 1e-3
+    logText = logf(logText, 'Cmbt Turn2: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(7,19));
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.CmbtTurn2 = true;
+end
+
+if abs(Main(8,20) - 30000) > altTol
+    logText = logf(logText, 'Ps1: Altitude = %.0f, expected %.0f\n', Main(8,20), 30000);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps1 = true;
+end
+if abs(Main(8,21) - 1.15) > machTol
+    logText = logf(logText, 'Ps1: Mach = %.2f, expected %.2f\n', Main(8,21), 1.15);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps1 = true;
+end
+if Main(8,22) < 1 - tol
+    logText = logf(logText, 'Ps1: n = %.3f, expected %.3f\n', Main(8,22), 1);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps1 = true;
+end
+if abs(Main(8,23) - 100) > tol
+    logText = logf(logText, 'Ps1: AB = %.0f%%, expected %.0f%%\n', Main(8,23), 100);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps1 = true;
+end
+if Main(8,24) < 400 - distTol
+    logText = logf(logText, 'Ps1: Ps = %.0f, must be >= %.0f\n', Main(8,24), 400);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps1 = true;
+elseif ~isnan(Main(8,24)) && Main(8,24) >= 500 - distTol
+    objectiveSet.Ps1 = true;
+end
+if abs(Main(8,19) - betaExpected) > 1e-3
+    logText = logf(logText, 'Ps1: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(8,19));
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps1 = true;
+end
+
+if abs(Main(9,20) - 10000) > altTol
+    logText = logf(logText, 'Ps2: Altitude = %.0f, expected %.0f\n', Main(9,20), 10000);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps2 = true;
+end
+if abs(Main(9,21) - 0.9) > machTol
+    logText = logf(logText, 'Ps2: Mach = %.2f, expected %.2f\n', Main(9,21), 0.9);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps2 = true;
+end
+if Main(9,22) < 1 - tol
+    logText = logf(logText, 'Ps2: n = %.3f, expected %.3f\n', Main(9,22), 1);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps2 = true;
+end
+if abs(Main(9,23)) > tol
+    logText = logf(logText, 'Ps2: AB = %.0f%%, expected %.0f%%\n', Main(9,23), 0);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps2 = true;
+end
+if Main(9,24) < 400 - distTol
+    logText = logf(logText, 'Ps2: Ps = %.0f, must be >= %.0f\n', Main(9,24), 400);
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps2 = true;
+elseif ~isnan(Main(9,24)) && Main(9,24) >= 500 - distTol
+    objectiveSet.Ps2 = true;
+end
+if abs(Main(9,19) - betaExpected) > 1e-3
+    logText = logf(logText, 'Ps2: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(9,19));
+    constraintErrors = constraintErrors + 1;
+    rowErrorsMap.Ps2 = true;
+end
+
+if abs(Main(12,20)) > altTol
+    logText = logf(logText, 'Takeoff: Altitude = %.0f, expected %.0f\n', Main(12,20), 0);
+    constraintErrors = constraintErrors + 1;
+end
+if abs(Main(12,21) - 1.2) > machTol
+    logText = logf(logText, 'Takeoff: Mach = %.2f, expected %.2f\n', Main(12,21), 1.2);
+    constraintErrors = constraintErrors + 1;
+end
+if abs(Main(12,22) - 0.03) > 5e-4
+    logText = logf(logText, 'Takeoff: n = %.3f, expected %.3f\n', Main(12,22), 0.03);
+    constraintErrors = constraintErrors + 1;
+end
+if abs(Main(12,23) - 100) > tol
+    logText = logf(logText, 'Takeoff: AB = %.0f%%, expected %.0f%%\n', Main(12,23), 100);
+    constraintErrors = constraintErrors + 1;
+end
+if takeoff_dist > 3000 + distTol
+    logText = logf(logText, 'Takeoff distance exceeds threshold (3000 ft): %.0f\n', takeoff_dist);
+    constraintErrors = constraintErrors + 1;
+elseif ~isnan(takeoff_dist) && takeoff_dist <= 2500 + distTol
+    logText = logf(logText, 'Takeoff distance meets objective (<= 2500 ft) [+1 bonus]: %.0f\n', takeoff_dist);
+end
+if abs(Main(12,19) - betaExpected) > tol
+    logText = logf(logText, 'Takeoff: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(12,19));
+    constraintErrors = constraintErrors + 1;
+end
+
+cdxTakeoff = Main(12,25);
+if ~(abs(cdxTakeoff) <= tol || abs(cdxTakeoff - 0.035) <= tol)
+    logText = logf(logText, 'Takeoff: CDx = %.3f must be one of 0.000, 0.035\n', cdxTakeoff);
+    constraintErrors = constraintErrors + 1;
+end
+
+if abs(Main(13,20)) > altTol
+    logText = logf(logText, 'Landing: Altitude = %.0f, expected %.0f\n', Main(13,20), 0);
+    constraintErrors = constraintErrors + 1;
+end
+if abs(Main(13,21) - 1.3) > machTol
+    logText = logf(logText, 'Landing: Mach = %.2f, expected %.2f\n', Main(13,21), 1.3);
+    constraintErrors = constraintErrors + 1;
+end
+if abs(Main(13,22) - 0.5) > tol
+    logText = logf(logText, 'Landing: n = %.3f, expected %.3f\n', Main(13,22), 0.5);
+    constraintErrors = constraintErrors + 1;
+end
+if abs(Main(13,23)) > tol
+    logText = logf(logText, 'Landing: AB = %.0f%%, expected %.0f%%\n', Main(13,23), 0);
+    constraintErrors = constraintErrors + 1;
+end
+if landing_dist > 5000 + distTol
+    logText = logf(logText, 'Landing distance exceeds threshold (5000 ft): %.0f\n', landing_dist);
+    constraintErrors = constraintErrors + 1;
+elseif ~isnan(landing_dist) && landing_dist <= 3500 + distTol
+    logText = logf(logText, 'Landing distance meets objective (<= 3500 ft) [+1 bonus]: %.0f\n', landing_dist);
+end
+if abs(Main(13,19) - betaExpected) > tol
+    logText = logf(logText, 'Landing: W/WTO must be set for 50%% fuel load (%.3f); found %.3f\n', betaExpected, Main(13,19));
+    constraintErrors = constraintErrors + 1;
+end
+
+cdxLanding = Main(13,25);
+if ~(abs(cdxLanding) <= tol || abs(cdxLanding - 0.045) <= tol)
+    logText = logf(logText, 'Landing: CDx = %.3f must be one of 0.000, 0.045\n', cdxLanding);
+    constraintErrors = constraintErrors + 1;
+end
+
+constraintDeduction = min(2, constraintErrors);
+if constraintDeduction > 0
+    pt = pt - constraintDeduction;
+    logText = logf(logText, '-%d pts One or more constraint table entries are incorrect\n', constraintDeduction);
+end
+% Constraint curve compliance (8 pts)
+constraintCurveFailures = 0;
+failedCurves = {};
+curveSuffixFew = '';
+curveSuffixMany = ' Consider seeking EI; multiple constraints remain unmet.';
+
+try
+    WS_axis = Consts(22, 11:31);
+    WS_axis = double(WS_axis);
+
+    constraintRows = [23, 24, 26, 27, 28, 29, 32];
+    columnLabels = {"MaxMach", "Supercruise", "CombatTurn1", "CombatTurn2", "Ps1", "Ps2", "Takeoff"};
+
+    WS_design = Main(13, 16);
+    TW_design = Main(13, 17);
+
+    for idx = 1:numel(constraintRows)
+        row = constraintRows(idx);
+        TW_curve = Consts(row, 11:31);
+        TW_curve = double(TW_curve);
+        estimatedTWvalue = interp1(WS_axis, TW_curve, WS_design, 'pchip', 'extrap');
+        if ~isnan(estimatedTWvalue)
+            fieldName = mapCurveField(columnLabels{idx});
+            passes = TW_design >= estimatedTWvalue - tol;
+            curveStatus.(fieldName) = passes;
+            if ~passes
+                constraintCurveFailures = constraintCurveFailures + 1;
+                failedCurves{end+1} = columnLabels{idx}; %#ok<AGROW>
+            end
+        end
+    end
+
+    WS_limit_landing = Consts(33, 12);
+    landingPass = ~(WS_design > WS_limit_landing);
+    curveStatus.Landing = landingPass;
+    if ~landingPass
+        constraintCurveFailures = constraintCurveFailures + 1;
+        failedCurves{end+1} = 'Landing'; %#ok<AGROW>
+        logText = logf(logText, 'Landing constraint violated: W/S = %.2f exceeds limit of %.2f\n', WS_design, WS_limit_landing);
+    end
+catch ME
+    logText = logf(logText, 'Could not perform constraint curve check due to error: %s\n', ME.message);
+    constraintCurveFailures = 0;
+    failedCurves = {};
+end
+
+if constraintCurveFailures == 1
+    pt = pt - 4;
+    logText = logf(logText, '-4 pts Design did not meet the following constraint: %s. Your design is not above those limits; increase T/W or relax the offending constraint values toward their thresholds.%s\n', char(failedCurves{1}), curveSuffixFew);
+elseif constraintCurveFailures >= 2
+    pt = pt - 8;
+    summary = strjoin(failedCurves, ', ');
+    suffix = curveSuffixFew;
+    if constraintCurveFailures > 6
+        suffix = curveSuffixMany;
+    end
+    logText = logf(logText, '-8 pts Design did not meet the following constraints: %s. Your design is not above those limits; increase T/W or relax the offending constraint values toward their thresholds.%s\n', char(summary), suffix);
+end
+
+objectiveFields = fieldnames(objectiveSet);
+for idx = 1:numel(objectiveFields)
+    key = objectiveFields{idx};
+    if ~objectiveSet.(key)
+        continue;
+    end
+    label = labelNames.(key);
+    if isfield(curveStatus, key) && curveStatus.(key) && ~rowErrorsMap.(key)
+        logText = logf(logText, 'Constraint %s set above threshold and satisfied. [+1 bonus]\n', label);
+    elseif isfield(curveStatus, key) && ~curveStatus.(key)
+        logText = logf(logText, 'Constraint %s set at or above objective. Design fails to meet this constraint; consider lowering it toward the threshold value.\n', label);
+    end
+end
+
+% Payload (4 pts)
+if isnan(aim120) || aim120 < 8 - tol
+    count = aim120;
+    if isnan(count), count = 0; end
+    pt = pt - 4;
+    logText = logf(logText, '-4 pts Payload must include at least 8 AIM-120Ds (found %.0f)\n', count);
+elseif ~isnan(aim9) && aim9 >= 2 - tol
+    logText = logf(logText, 'Payload meets objective [+1 bonus]: %.0f AIM-120s + %.0f AIM-9s\n', aim120, aim9);
+end
+% Control surface attachment (2 pts)
+controlFailures = 0;
+VALUE_TOL = 1e-3;
+AR_TOL = 0.1;
+VT_WING_FRACTION = 0.8;
+
+fuselage_length = Main(32, 2);
+fuselage_end = fuselage_length;
+PCS_x = Main(23, 3);
+PCS_root_chord = Geom(8, 3);
+if any(isnan([fuselage_end, PCS_x, PCS_root_chord]))
+    logText = logf(logText, 'Unable to verify PCS placement due to missing geometry data\n');
+    controlFailures = controlFailures + 1;
+elseif PCS_x > (fuselage_end - 0.25 * PCS_root_chord)
+    logText = logf(logText, 'PCS X-location too far aft. Must overlap at least 25%% of root chord.\n');
+    controlFailures = controlFailures + 1;
+end
+
+VT_x = Main(23, 8);
+VT_root_chord = Geom(10, 3);
+if any(isnan([fuselage_end, VT_x, VT_root_chord]))
+    logText = logf(logText, 'Unable to verify vertical tail placement due to missing geometry data\n');
+    controlFailures = controlFailures + 1;
+elseif VT_x > (fuselage_end - 0.25 * VT_root_chord)
+    logText = logf(logText, 'VT X-location too far aft. Must overlap at least 25%% of root chord.\n');
+    controlFailures = controlFailures + 1;
+end
+
+PCS_z = Main(25, 3);
+fuse_z_center = Main(52, 4);
+fuse_z_height = Main(52, 6);
+if any(isnan([PCS_z, fuse_z_center, fuse_z_height]))
+    logText = logf(logText, 'Unable to verify PCS vertical placement due to missing geometry data\n');
+    controlFailures = controlFailures + 1;
+elseif PCS_z < (fuse_z_center - fuse_z_height/2) || PCS_z > (fuse_z_center + fuse_z_height/2)
+    logText = logf(logText, 'PCS Z-location outside fuselage vertical bounds.\n');
+    controlFailures = controlFailures + 1;
+end
+
+VT_y = Main(24, 8);
+fuse_width = Main(52, 5);
+vtMountedOffFuselage = false;
+if any(isnan([VT_y, fuse_width]))
+    logText = logf(logText, 'Unable to verify vertical tail lateral placement due to missing geometry data\n');
+    controlFailures = controlFailures + 1;
+elseif abs(VT_y) > fuse_width/2 + VALUE_TOL
+    vtMountedOffFuselage = true;
+    logText = logf(logText, 'Vertical tail mounted off the fuselage; ensure structural support at the wing.\n');
+end
+
+if Main(18, 4) > 1
+    sweep = Geom(15, 11);
+    y = Geom(152, 13);
+    strake = Geom(155, 12);
+    apex = Geom(38, 12);
+    if any(isnan([sweep, y, strake, apex]))
+        logText = logf(logText, 'Unable to verify strake attachment due to missing geometry data\n');
+        controlFailures = controlFailures + 1;
+    else
+        wing = (y / tand(90 - sweep) + apex);
+        if wing >= (strake + 0.5)
+            logText = logf(logText, 'Strake disconnected.\n');
+            controlFailures = controlFailures + 1;
+        end
+    end
+end
+
+component_positions = Main(23, 2:8);
+if any(component_positions >= fuselage_end)
+    logText = logf(logText, 'One or more components X-location extend beyond the fuselage end (B32 = %.2f)\n', fuselage_end);
+    controlFailures = controlFailures + 1;
+end
+
+if vtMountedOffFuselage
+    vtApex = geomPlanformPoint(Geom, 163);
+    vtRootTE = geomPlanformPoint(Geom, 166);
+    wingTE = geomPlanformPoint(Geom, 41);
+    if any(isnan([vtApex(1), vtRootTE(1), wingTE(1)]))
+        logText = logf(logText, 'Unable to verify vertical tail overlap with wing due to missing geometry data\n');
+        controlFailures = controlFailures + 1;
+    else
+        chord = vtRootTE(1) - vtApex(1);
+        overlap = max(0, min(wingTE(1), vtRootTE(1)) - vtApex(1));
+        if ~(chord > 0) || overlap + VALUE_TOL < VT_WING_FRACTION * chord
+            logText = logf(logText, 'Vertical tail mounted on the wing must overlap at least 80%% of its root chord with the wing trailing edge.\n');
+            controlFailures = controlFailures + 1;
+        end
+    end
+end
+
+wingAR = Main(19, 2);
+pcsAR = Main(19, 3);
+vtAR = Main(19, 8);
+if ~isnan(wingAR) && ~isnan(pcsAR) && pcsAR > wingAR + AR_TOL
+    logText = logf(logText, 'Pitch control surface aspect ratio (%.2f) must be lower than wing aspect ratio (%.2f).\n', pcsAR, wingAR);
+    controlFailures = controlFailures + 1;
+end
+if ~isnan(wingAR) && ~isnan(vtAR) && vtAR >= wingAR - AR_TOL
+    logText = logf(logText, 'Vertical tail aspect ratio (%.2f) must be lower than wing aspect ratio (%.2f).\n', vtAR, wingAR);
+    controlFailures = controlFailures + 1;
+end
+
+engine_diameter = Main(29, 8);
+inlet_x = Main(31, 6);
+compressor_x = Main(32, 6);
+engine_start = inlet_x + compressor_x;
+widthValues = [];
+if ~isnan(engine_start)
+    for row = 34:53
+        station_x = Main(row, 2);
+        width = Main(row, 5);
+        if ~isnan(station_x) && ~isnan(width) && station_x >= engine_start
+            widthValues(end+1) = width; %#ok<AGROW>
+        end
+    end
+end
+if isempty(widthValues) || isnan(engine_diameter)
+    logText = logf(logText, 'Unable to verify fuselage width clearance for engines\n');
+    controlFailures = controlFailures + 1;
+else
+    minWidth = min(widthValues);
+    maxWidth = max(widthValues);
+    requiredWidth = engine_diameter + 0.5;
+    if minWidth + VALUE_TOL <= requiredWidth
+        logText = logf(logText, 'Fuselage minimum width (%.2f ft) must exceed engine diameter + 0.5 ft (%.2f ft).\n', minWidth, requiredWidth);
+        controlFailures = controlFailures + 1;
+    end
+    allowedOverhang = 2 * maxWidth;
+    if ~isnan(fuselage_end)
+        pcsTipX = max(Geom(117, 12), Geom(118, 12));
+        vtTipX = max(Geom(165, 12), Geom(166, 12));
+        if ~isnan(pcsTipX)
+            overhang = pcsTipX - fuselage_end;
+            if overhang > allowedOverhang + VALUE_TOL
+                logText = logf(logText, '%s extends %.2f ft beyond the fuselage end (limit %.2f ft).\n', 'Pitch control surface', overhang, allowedOverhang);
+                controlFailures = controlFailures + 1;
+            end
+        end
+        if ~isnan(vtTipX)
+            overhang = vtTipX - fuselage_end;
+            if overhang > allowedOverhang + VALUE_TOL
+                logText = logf(logText, '%s extends %.2f ft beyond the fuselage end (limit %.2f ft).\n', 'Vertical tail', overhang, allowedOverhang);
+                controlFailures = controlFailures + 1;
+            end
+        end
+    end
+end
+
+engine_length = Main(29, 9);
+if any(isnan([engine_diameter, fuselage_end, inlet_x, compressor_x, engine_length]))
+    logText = logf(logText, 'Unable to verify engine protrusion due to missing geometry data\n');
+    controlFailures = controlFailures + 1;
+else
+    protrusion = inlet_x + compressor_x + engine_length - fuselage_end;
+    if protrusion > engine_diameter + VALUE_TOL
+        logText = logf(logText, 'Engine nacelles protrude %.2f ft past the fuselage end (limit %.2f ft).\n', protrusion, engine_diameter);
+        controlFailures = controlFailures + 1;
+    end
+end
+
+if controlFailures > 0
+    deduction = min(2, controlFailures);
+    pt = pt - deduction;
+    logText = logf(logText, '-%d pts Control surface placement issues\n', deduction);
+end
+
+% Stealth shaping 
+STEALTH_TOL = 5;
+stealthFailures = 0;
+
+wingLeadingAngle = computeEdgeAngleDeg(Geom, 38, 39);
+wingTrailingAngle = computeEdgeAngleDeg(Geom, 40, 41);
+pcsLeadingAngle = computeEdgeAngleDeg(Geom, 115, 116);
+pcsTrailingAngle = computeEdgeAngleDeg(Geom, 117, 118);
+strakeLeadingAngle = computeEdgeAngleDeg(Geom, 152, 153);
+strakeTrailingAngle = computeEdgeAngleDeg(Geom, 154, 155);
+vtLeadingAngle = computeEdgeAngleDeg(Geom, 163, 164);
+vtTrailingAngle = computeEdgeAngleDeg(Geom, 165, 166);
+pcsDihedral = Main(26, 3);
+vtTilt = Main(27, 8);
+wingArea = Main(18, 2);
+pcsArea = Main(18, 3);
+strakeArea = Main(18, 4);
+vtArea = Main(18, 8);
+wingActive = isnan(wingArea) || wingArea >= 1;
+pcsActive = isnan(pcsArea) || pcsArea >= 1;
+strakeActive = isnan(strakeArea) || strakeArea >= 1;
+vtActive = isnan(vtArea) || vtArea >= 1;
+
+if pcsActive && wingActive && ~anglesParallel(pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL)
+    logText = logf(logText, 'Pitch control surface leading edge sweep %.1f° must match the wing leading edge sweep %.1f° (+/- %.1f°).\n', pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL);
+    stealthFailures = stealthFailures + 1;
+end
+
+wingTipTE = geomPlanformPoint(Geom, 40);
+wingCenterTE = geomPlanformPoint(Geom, 41);
+if ~(wingActive && (anglesParallel(wingTrailingAngle, wingLeadingAngle, STEALTH_TOL) || teNormalHitsCenterline(wingTipTE, wingCenterTE)))
+    logText = logf(logText, 'Wing trailing edge %.1f° is not parallel to the leading edge and its normal does not reach the fuselage centerline (+/- %.1f°).\n', wingTrailingAngle, STEALTH_TOL);
+    stealthFailures = stealthFailures + 1;
+end
+
+if pcsActive && ~isnan(pcsDihedral) && pcsDihedral > 5
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, pcsLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Pitch control surface leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, pcsTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Pitch control surface trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+end
+
+if strakeActive
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, strakeTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Strake trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+end
+
+if ~vtActive
+    % ignore
+elseif isnan(vtTilt)
+    logText = logf(logText, 'Unable to verify stealth shaping due to missing geometry data\n');
+    stealthFailures = stealthFailures + 1;
+elseif vtTilt < 85
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, vtLeadingAngle, wingLeadingAngle, STEALTH_TOL, 'Vertical tail leading edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+    [logText, stealthFailures] = requireParallelAngle(logText, stealthFailures, vtTrailingAngle, wingLeadingAngle, STEALTH_TOL, 'Vertical tail trailing edge sweep %.1f° must be parallel to the wing leading edge %.1f° (+/- %.1f°).\n');
+end
+
+stealthDeduction = min(5, stealthFailures);
+if stealthDeduction > 0
+    pt = pt - stealthDeduction;
+    logText = logf(logText, '-%d pts Stealth shaping issues\n', stealthDeduction);
 end
 
 % Stability (3 pts)
@@ -857,7 +1173,7 @@ end
 stabilityDeduction = min(3, stabilityErrors);
 if stabilityDeduction > 0
     pt = pt - stabilityDeduction;
-    logText = logf(logText, '-%d pts Stability parameters outside limits (max 3)\n', stabilityDeduction);
+    logText = logf(logText, '-%d pts Stability parameters outside limits\n', stabilityDeduction);
 end
 
 % Fuel (2 pts) and volume (2 pts)
@@ -934,7 +1250,7 @@ end
 if gearFailures > 0
     deduction = min(4, gearFailures);
     pt = pt - deduction;
-    logText = logf(logText, '-%d pts Landing gear geometry outside limits (max 4)\n', deduction);
+    logText = logf(logText, '-%d pts Landing gear geometry outside limits\n', deduction);
 end
 % Final score and bonuses
 baseScore = max(0, pt);
@@ -1095,9 +1411,11 @@ sheets.Main   = safeReadMatrix(filename, 'Main',   {'S3','T3','U3','V3','W3','X3
     'Y9','S12','S13','AB3','AB4','X12','X13','Y37','M10','O10','P10','Q10',...
     'O18','X40','Q23','Q31','N31','P13','Q13','B32','B19','C19','D19','H19','B21','C21',...
     'D21','H21','B23','C23','D23','H23','C24','D24','H24','C26','D26','H26',...
-    'B27','C27','D27','H27','F31','F32','H29','I29','E34','E35','E36','E37',...
-    'E38','E39','E40','E41','E42','E43','E44','E45','E46','E47','E48','E49',...
-    'E50','E51','E52','E53','D18','D23','D52','F52'});
+    'B27','C27','D27','H27','F31','F32','H29','I29','O15','B34','B35','B36','B37',...
+    'B38','B39','B40','B41','B42','B43','B44','B45','B46','B47','B48','B49',...
+    'B50','B51','B52','B53','E34','E35','E36','E37','E38','E39','E40','E41',...
+    'E42','E43','E44','E45','E46','E47','E48','E49','E50','E51','E52','E53',...
+    'D18','D23','D52','F52'});
 sheets.Consts = safeReadMatrix(filename, 'Consts', {'K22','K23','K24','K26','K27','K28','K29','K32','AO42','AQ41','K33'});
 sheets.Gear   = safeReadMatrix(filename, 'Gear',   {'J20','L20','L21','M20','M21','N20'});
 sheets.Geom   = safeReadMatrix(filename, 'Geom',   {'C8','C10','M152','K15','L155','L38'});
@@ -1244,6 +1562,27 @@ if isnan(angle) || isnan(wingAngle)
 elseif ~anglesParallel(angle, wingAngle, tol)
     logText = logf(logText, template, angle, wingAngle, tol);
     failures = failures + 1;
+end
+end
+
+function field = mapCurveField(label)
+switch label
+    case 'MaxMach'
+        field = 'MaxMach';
+    case 'Supercruise'
+        field = 'CruiseMach';
+    case 'CombatTurn1'
+        field = 'CmbtTurn1';
+    case 'CombatTurn2'
+        field = 'CmbtTurn2';
+    case 'Ps1'
+        field = 'Ps1';
+    case 'Ps2'
+        field = 'Ps2';
+    case 'Takeoff'
+        field = 'Takeoff';
+    otherwise
+        field = matlab.lang.makeValidName(label);
 end
 end
 
@@ -1452,6 +1791,3 @@ else
     rounded = round(value*10)/10;
 end
 end
-
-
-

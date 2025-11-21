@@ -135,12 +135,6 @@ export function gradeWorkbook(workbook, rules) {
   baseScore += thrustResult.delta;
   feedback.push(...thrustResult.feedback);
 
-  const constraintResult = runConstraintChecks(workbook, rules);
-  baseScore += constraintResult.delta;
-  baseScore += constraintResult.payloadDelta;
-  baseScore += constraintResult.curveDelta;
-  feedback.push(...constraintResult.feedback);
-
   const attachmentResult = runAttachmentChecks(workbook, rules);
   baseScore += attachmentResult.delta;
   feedback.push(...attachmentResult.feedback);
@@ -148,6 +142,12 @@ export function gradeWorkbook(workbook, rules) {
   const stealthResult = runStealthChecks(workbook);
   baseScore += stealthResult.delta;
   feedback.push(...stealthResult.feedback);
+
+  const constraintResult = runConstraintChecks(workbook, rules);
+  baseScore += constraintResult.delta;
+  baseScore += constraintResult.payloadDelta;
+  baseScore += constraintResult.curveDelta;
+  feedback.push(...constraintResult.feedback);
 
   const stabilityResult = runStabilityChecks(workbook, rules);
   baseScore += stabilityResult.delta;

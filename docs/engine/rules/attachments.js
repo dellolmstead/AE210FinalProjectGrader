@@ -5,6 +5,7 @@ import { getPlanformPoint, getMaxX } from "../geomUtils.js";
 
 const DEG_TO_RAD = Math.PI / 180;
 const VALUE_TOL = 1e-3;
+const AR_TOL = 0.1;
 const VT_WING_FRACTION = 0.8;
 
 export function runAttachmentChecks(workbook) {
@@ -134,26 +135,32 @@ export function runAttachmentChecks(workbook) {
   const wingAR = asNumber(getCell(main, "B19"));
   const pcsAR = asNumber(getCell(main, "C19"));
   const vtAR = asNumber(getCell(main, "H19"));
-  if (Number.isFinite(wingAR) && Number.isFinite(pcsAR) && pcsAR >= wingAR - VALUE_TOL) {
+  if (Number.isFinite(wingAR) && Number.isFinite(pcsAR) && pcsAR > wingAR + AR_TOL) {
     feedback.push(format(STRINGS.attachment.aspectRatioPcs, pcsAR, wingAR));
     controlFailures += 1;
   }
-  if (Number.isFinite(wingAR) && Number.isFinite(vtAR) && vtAR >= wingAR - VALUE_TOL) {
+  if (Number.isFinite(wingAR) && Number.isFinite(vtAR) && vtAR >= wingAR - AR_TOL) {
     feedback.push(format(STRINGS.attachment.aspectRatioVt, vtAR, wingAR));
     controlFailures += 1;
   }
 
+  const engineDiameter = asNumber(getCell(main, "H29"));
+  const inletX = asNumber(getCell(main, "F31"));
+  const compressorX = asNumber(getCell(main, "F32"));
+  const engineStartX =
+    Number.isFinite(inletX) && Number.isFinite(compressorX) ? inletX + compressorX : Number.NaN;
+
   const widthValues = [];
   for (let row = 34; row <= 53; row += 1) {
+    const stationX = asNumber(getCell(main, `B${row}`));
     const width = asNumber(getCell(main, `E${row}`));
-    if (Number.isFinite(width)) {
+    if (Number.isFinite(width) && Number.isFinite(stationX) && Number.isFinite(engineStartX) && stationX >= engineStartX) {
       widthValues.push(width);
     }
   }
   const minWidth = widthValues.length > 0 ? Math.min(...widthValues) : Number.NaN;
   const maxWidth = widthValues.length > 0 ? Math.max(...widthValues) : Number.NaN;
 
-  const engineDiameter = asNumber(getCell(main, "H29"));
   if (Number.isFinite(engineDiameter) && Number.isFinite(minWidth)) {
     const requiredWidth = engineDiameter + 0.5;
     if (minWidth + VALUE_TOL <= requiredWidth) {
@@ -188,8 +195,6 @@ export function runAttachmentChecks(workbook) {
   }
 
   if (Number.isFinite(engineDiameter)) {
-    const inletX = asNumber(getCell(main, "F31"));
-    const compressorX = asNumber(getCell(main, "F32"));
     const engineLength = asNumber(getCell(main, "I29"));
     if (
       Number.isFinite(fuselageLength) &&
